@@ -7,7 +7,11 @@ package com.telegrambotbank.enumeration;
  */
 public enum OpcoesBotEnum {
 	
-	DEPOSITAR("/depositar");
+	START("/start"),
+	DEPOSITAR("/depositar"),
+	SACAR("/sacar"),
+	EMPRESTIMO("/emprestimo");
+	
 	
 	private String opcaoDesejada;
 	

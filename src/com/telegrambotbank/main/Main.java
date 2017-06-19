@@ -14,12 +14,14 @@ import com.pengrad.telegrambot.request.SendChatAction;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.BaseResponse;
 import com.pengrad.telegrambot.response.GetUpdatesResponse;
+import com.pengrad.telegrambot.response.SendResponse;
 import com.telegrambotbank.datatype.ClienteVO;
 import com.telegrambotbank.datatype.ContaBancariaVO;
 import com.telegrambotbank.enumeration.OpcoesBotEnum;
 import com.telegrambotbank.enumeration.TipoContaCorrenteEnum;
 import com.telegrambotbank.exception.ContaInexistenteException;
 import com.telegrambotbank.exception.SaldoInsuficienteException;
+import com.telegrambotbank.helper.GeneralHelper;
 import com.telegrambotbank.opcoes.mediator.OpcoesMediator;
 import com.telegrambotbank.opcoes.util.DepositoBancarioUtil;
 
@@ -35,8 +37,12 @@ public class Main {
 		// objeto responsável por receber as mensagens
 		GetUpdatesResponse updatesResponse;
 
+		//objeto responsável por gerenciar o envio de respostas
+		SendResponse sendResponse;
+		
 		// objeto responsável por gerenciar o envio de ações do chat
 		BaseResponse baseResponse;
+		
 
 		// loop infinito pode ser alterado por algum timer de intervalo curto
 		while (true) {
@@ -62,6 +68,13 @@ public class Main {
 
 				System.out.println("Recebendo mensagem:" + mensagemRecebida);
 
+				if(OpcoesBotEnum.START.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)){
+					baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
+					sendResponse = bot.execute(new SendMessage(update.message().chat().id(), new GeneralHelper().getMsgBoasVindas() ));
+					mensagemRecebida = "";
+				}
+				
+				
 				// Mockery TODO retirar - INÍCIO
 
 				ContaBancariaVO contaCorrenteDepositante = new ContaBancariaVO();
@@ -98,12 +111,18 @@ public class Main {
 						mensagemRetorno = DepositoBancarioUtil.solicitarNuContaDestinoDeposito(opcoesMediator, bot,
 								update, contaCorrenteDepositante, contaCorrenteDestino, fimInformarConta,
 								mensagemRetorno, valorDeposito);
-						bot.execute(new SendMessage(update.message().chat().id(), mensagemRetorno));
+						baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
+						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), mensagemRetorno));
+						mensagemRecebida = "";
 					}
 
 				} catch (SaldoInsuficienteException | ContaInexistenteException | IOException e) {
-					bot.execute(new SendMessage(update.message().chat().id(), e.getMessage()));
+					baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
+					sendResponse = bot.execute(new SendMessage(update.message().chat().id(), e.getMessage()));
+					mensagemRecebida = "";
 				}
+				
+				
 				// envio de "Escrevendo" antes de enviar a resposta
 				baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
 
@@ -111,12 +130,13 @@ public class Main {
 				System.out.println("Resposta de Chat Action Enviada?" + baseResponse.isOk());
 
 				// envio da mensagem de resposta
-				// sendResponse = bot.execute(new
-				// SendMessage(update.message().chat().id(), "Não entend..."));
+				//sendResponse = bot.execute(new
+				 //SendMessage(update.message().chat().id(), "Não entend..."));
 
 				// verificação de mensagem enviada com sucesso
-				// System.out.println("Mensagem Enviada?" +
-				// sendResponse.isOk());
+				System.out.println("Mensagem Enviada?" +
+						baseResponse.isOk());
+				
 
 			}
 		}
