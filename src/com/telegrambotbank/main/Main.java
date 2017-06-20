@@ -27,31 +27,47 @@ import com.telegrambotbank.opcoes.util.DepositoBancarioUtil;
 
 public class Main {
 	public static void main(String[] args) {
-		// Mediator responsável por verificar qual é a ação a ser tomada de
-		// acordo com a opção desejada
+		// Mediator responsï¿½vel por verificar qual ï¿½ a aï¿½ï¿½o a ser tomada de
+		// acordo com a opï¿½ï¿½o desejada
 		OpcoesMediator opcoesMediator = new OpcoesMediator();
 
-		// Criação do objeto bot com as informações de acesso
+		// Criaï¿½ï¿½o do objeto bot com as informaï¿½ï¿½es de acesso
 		TelegramBot bot = TelegramBotAdapter.build("332862407:AAGAwq3hj0XGS3y_TlrWtkQuc2Lh8deSes0");
 
-		// objeto responsável por receber as mensagens
+		// objeto responsï¿½vel por receber as mensagens
 		GetUpdatesResponse updatesResponse;
 
-		//objeto responsável por gerenciar o envio de respostas
+		//objeto responsï¿½vel por gerenciar o envio de respostas
 		SendResponse sendResponse;
 		
-		// objeto responsável por gerenciar o envio de ações do chat
+		// objeto responsï¿½vel por gerenciar o envio de aï¿½ï¿½es do chat
 		BaseResponse baseResponse;
 		
+		
+		// Mockery TODO retirar - INï¿½CIO
+
+		ContaBancariaVO contaCorrenteDepositante = new ContaBancariaVO();
+		contaCorrenteDepositante.setAgenciaBancaria("6252");
+		contaCorrenteDepositante.setNuContaCorrete("176117");
+		contaCorrenteDepositante.setTipo(TipoContaCorrenteEnum.SIMPLES);
+
+		ClienteVO cliente = new ClienteVO();
+		cliente.setCPF(new BigDecimal("42847256881"));
+		cliente.setDataNascimento(new Date());
+		cliente.setEmail("teste@teste.com.br");
+		cliente.setNome("Teste Leandro");
+
+		contaCorrenteDepositante.setCliente(cliente);
+
+		// Mockery TODO retirar - FIM
+		// controle de off-set, isto ï¿½, a partir deste ID serï¿½ lido as
+		// mensagens
+		// pendentes na fila
+		int m = 0;
 
 		// loop infinito pode ser alterado por algum timer de intervalo curto
 		while (true) {
-
-			// controle de off-set, isto é, a partir deste ID será lido as
-			// mensagens
-			// pendentes na fila
-			int m = 0;
-
+			
 			// executa comando no Telegram para obter as mensagens pendentes a
 			// partir de um off-set (limite inicial)
 			updatesResponse = bot.execute(new GetUpdates().limit(100).offset(m));
@@ -59,40 +75,24 @@ public class Main {
 			// lista de mensagens
 			List<Update> updates = updatesResponse.updates();
 
-			// análise de cada ação da mensagem
+			// anï¿½lise de cada aï¿½ï¿½o da mensagem
 			for (Update update : updates) {
-				// atualização do off-set
+			
+				// atualizaï¿½ï¿½o do off-set
 				m = update.updateId() + 1;
 
 				String mensagemRecebida = update.message().text();
 
 				System.out.println("Recebendo mensagem:" + mensagemRecebida);
 
-				if(OpcoesBotEnum.START.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)){
-					baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
-					sendResponse = bot.execute(new SendMessage(update.message().chat().id(), new GeneralHelper().getMsgBoasVindas() ));
-					mensagemRecebida = "";
-				}
-				
-				
-				// Mockery TODO retirar - INÍCIO
-
-				ContaBancariaVO contaCorrenteDepositante = new ContaBancariaVO();
-				contaCorrenteDepositante.setAgenciaBancaria("6252");
-				contaCorrenteDepositante.setNuContaCorrete("176117");
-				contaCorrenteDepositante.setTipo(TipoContaCorrenteEnum.SIMPLES);
-
-				ClienteVO cliente = new ClienteVO();
-				cliente.setCPF(new BigDecimal("42847256881"));
-				cliente.setDataNascimento(new Date());
-				cliente.setEmail("teste@teste.com.br");
-				cliente.setNome("Teste Leandro");
-
-				contaCorrenteDepositante.setCliente(cliente);
-
-				// Mockery TODO retirar - FIM
 
 				try {
+					if(OpcoesBotEnum.START.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)){
+						baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
+						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), new GeneralHelper().getMsgBoasVindas() ));
+						mensagemRecebida = "";
+					}
+					
 					if (OpcoesBotEnum.DEPOSITAR.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)) {
 						ContaBancariaVO contaCorrenteDestino = new ContaBancariaVO();
 
@@ -115,6 +115,14 @@ public class Main {
 						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), mensagemRetorno));
 						mensagemRecebida = "";
 					}
+				    if(OpcoesBotEnum.CRIAR_CONTA.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)){
+						String mensagemRetorno = null;
+						
+						mensagemRetorno = "vocáº½ nÃ£o pode criar uma conta no nosso banco!";
+						baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
+						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), mensagemRetorno));
+						mensagemRecebida = "";
+					}
 
 				} catch (SaldoInsuficienteException | ContaInexistenteException | IOException e) {
 					baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
@@ -126,14 +134,14 @@ public class Main {
 				// envio de "Escrevendo" antes de enviar a resposta
 				baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
 
-				// verificação de ação de chat foi enviada com sucesso
+				// verificaï¿½ï¿½o de aï¿½ï¿½o de chat foi enviada com sucesso
 				System.out.println("Resposta de Chat Action Enviada?" + baseResponse.isOk());
 
 				// envio da mensagem de resposta
 				//sendResponse = bot.execute(new
-				 //SendMessage(update.message().chat().id(), "Não entend..."));
+				 //SendMessage(update.message().chat().id(), "Nï¿½o entend..."));
 
-				// verificação de mensagem enviada com sucesso
+				// verificaï¿½ï¿½o de mensagem enviada com sucesso
 				System.out.println("Mensagem Enviada?" +
 						baseResponse.isOk());
 				

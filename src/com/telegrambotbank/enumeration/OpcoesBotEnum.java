@@ -1,12 +1,13 @@
 package com.telegrambotbank.enumeration;
 
 /**
- * Enum para centralizar as opções disponíveis do bot
+ * Enum para centralizar as opï¿½ï¿½es disponï¿½veis do bot
  * @author user
  *
  */
 public enum OpcoesBotEnum {
 	
+	CRIAR_CONTA("/criarConta"),
 	START("/start"),
 	DEPOSITAR("/depositar"),
 	SACAR("/sacar"),

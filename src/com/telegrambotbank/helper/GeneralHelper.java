@@ -13,6 +13,7 @@ public class GeneralHelper {
 			+"/depositar - Realizar deposito em sua conta \n"
 			+ "/sacar - Realizar um saque virtual \n"
 			+ "/emprestimo - Solicitar emprestimo \n"
+			+ "/criarConta - Realizar cadastro de uma nova conta \n"
 			;
 
 	public String getMsgBoasVindas() {
