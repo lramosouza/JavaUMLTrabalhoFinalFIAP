@@ -2,7 +2,6 @@ package com.telegrambotbank.main;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 import com.pengrad.telegrambot.TelegramBot;
@@ -15,7 +14,6 @@ import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.BaseResponse;
 import com.pengrad.telegrambot.response.GetUpdatesResponse;
 import com.pengrad.telegrambot.response.SendResponse;
-import com.telegrambotbank.datatype.ClienteVO;
 import com.telegrambotbank.datatype.ContaBancariaVO;
 import com.telegrambotbank.enumeration.OpcoesBotEnum;
 import com.telegrambotbank.enumeration.TipoContaCorrenteEnum;
@@ -84,7 +82,7 @@ public class Main {
 				System.out.println("Recebendo mensagem:" + mensagemRecebida);
 
 
-				try {
+			
 					if(OpcoesBotEnum.START.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)){
 						baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
 						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), new GeneralHelper().getMsgBoasVindas() ));
@@ -99,16 +97,20 @@ public class Main {
 						boolean fimInformarConta = false;
 
 						String mensagemRetorno = null;
-
-						BigDecimal valorDeposito = DepositoBancarioUtil.solicitarValorInformadoDeposito(bot, update,
+						try{
+							BigDecimal valorDeposito = DepositoBancarioUtil.solicitarValorInformadoDeposito(bot, update,
 								fimInformarValor);
 
-						DepositoBancarioUtil.solicitarNuAgenciaDestinoDeposito(bot, update, contaCorrenteDestino,
+							DepositoBancarioUtil.solicitarNuAgenciaDestinoDeposito(bot, update, contaCorrenteDestino,
 								fimInformarAgencia);
 
-						mensagemRetorno = DepositoBancarioUtil.solicitarNuContaDestinoDeposito(opcoesMediator, bot,
+							mensagemRetorno = DepositoBancarioUtil.solicitarNuContaDestinoDeposito(opcoesMediator, bot,
 								update, contaCorrenteDepositante, contaCorrenteDestino, fimInformarConta,
 								mensagemRetorno, valorDeposito);
+						}catch(Exception e){
+							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), e.getMessage()));
+
+						}
 						baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
 						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), mensagemRetorno));
 						mensagemRecebida = "";
@@ -120,18 +122,20 @@ public class Main {
 						baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
 						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), mensagemRetorno));
 						mensagemRecebida = "";
+						updatesResponse = bot.execute(new GetUpdates().limit(100).offset(m+2));
+						
 					}
 				    if(OpcoesBotEnum.HELP.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)){
 				    	baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
 						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), new GeneralHelper().getMsgHelp()));
 						mensagemRecebida = "";
+						updatesResponse = bot.execute(new GetUpdates().limit(100).offset(m+2));
 				    }
 
-				} catch (SaldoInsuficienteException | ContaInexistenteException | IOException e) {
-					baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
-					sendResponse = bot.execute(new SendMessage(update.message().chat().id(), e.getMessage()));
-					mensagemRecebida = "";
-				}
+//					baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
+//					sendResponse = bot.execute(new SendMessage(update.message().chat().id(), e.getMessage()));
+//				mensagemRecebida = "";
+//				
 				
 				
 				// envio de "Escrevendo" antes de enviar a resposta

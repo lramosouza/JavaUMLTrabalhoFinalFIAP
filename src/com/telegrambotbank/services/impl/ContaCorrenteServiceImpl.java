@@ -60,6 +60,9 @@ public class ContaCorrenteServiceImpl implements IContaCorrenteService{
 		//Obtem saldo do arquivo a partir do arquivo da conta corrente
 		BigDecimal saldo = new BigDecimal(arquivoContaCorrenteReader.getDadosArquivo().substring(12, 21).trim());
 		
+		if (saldo.compareTo(BigDecimal.ZERO) < 0){
+			throw new SaldoInsuficienteException();
+		}
 		// Calcula novo saldo
 		BigDecimal saldoAtual = saldo.subtract(dadosOperacao.getValor());
 		
