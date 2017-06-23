@@ -43,7 +43,6 @@ public class Main {
 		// objeto respons�vel por gerenciar o envio de a��es do chat
 		BaseResponse baseResponse;
 		
-		
 		// Mockery TODO retirar - IN�CIO
 
 		ContaBancariaVO contaCorrenteDepositante = new ContaBancariaVO();
@@ -51,13 +50,13 @@ public class Main {
 		contaCorrenteDepositante.setNuContaCorrete("176117");
 		contaCorrenteDepositante.setTipo(TipoContaCorrenteEnum.SIMPLES);
 
-		ClienteVO cliente = new ClienteVO();
+		/*ClienteVO cliente = new ClienteVO();
 		cliente.setCPF(new BigDecimal("42847256881"));
 		cliente.setDataNascimento(new Date());
 		cliente.setEmail("teste@teste.com.br");
-		cliente.setNome("Teste Leandro");
+		cliente.setNome("Teste Leandro");*/
 
-		contaCorrenteDepositante.setCliente(cliente);
+		//contaCorrenteDepositante.setCliente(cliente);
 
 		// Mockery TODO retirar - FIM
 		// controle de off-set, isto �, a partir deste ID ser� lido as
@@ -67,7 +66,6 @@ public class Main {
 
 		// loop infinito pode ser alterado por algum timer de intervalo curto
 		while (true) {
-			
 			// executa comando no Telegram para obter as mensagens pendentes a
 			// partir de um off-set (limite inicial)
 			updatesResponse = bot.execute(new GetUpdates().limit(100).offset(m));
@@ -123,6 +121,11 @@ public class Main {
 						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), mensagemRetorno));
 						mensagemRecebida = "";
 					}
+				    if(OpcoesBotEnum.HELP.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)){
+				    	baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
+						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), new GeneralHelper().getMsgHelp()));
+						mensagemRecebida = "";
+				    }
 
 				} catch (SaldoInsuficienteException | ContaInexistenteException | IOException e) {
 					baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
