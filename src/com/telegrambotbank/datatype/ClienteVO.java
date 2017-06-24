@@ -1,10 +1,8 @@
 package com.telegrambotbank.datatype;
 
 import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.math.BigDecimal;
-import java.util.Date;
+
+import com.telegrambrank.annotation.PosicaoCliente;
 
 /**
  * Value Object que representa um cliente
@@ -17,17 +15,18 @@ public class ClienteVO implements Serializable {
 	/**
 	 * 
 	 */
-	
-	@Posicao(posicaoInicial = 0, posicaoFinal = 49)
+	private static final long serialVersionUID = 1L;
+
+	@PosicaoCliente(posicaoInicial = 26, posicaoFinal = 105)
 	private String nome;
 	
-	@Posicao(posicaoInicial = 49, posicaoFinal = 59)
+	@PosicaoCliente(posicaoInicial = 122, posicaoFinal = 132)
 	private String dataNascimento;
 	
-	@Posicao(posicaoInicial = 59, posicaoFinal = 70)
+	@PosicaoCliente(posicaoInicial = 107, posicaoFinal = 118)
 	private String CPF;
 	
-	@Posicao(posicaoInicial = 70, posicaoFinal = 115)
+	@PosicaoCliente(posicaoInicial = 134, posicaoFinal = 144)
 	private String email;
 
 	

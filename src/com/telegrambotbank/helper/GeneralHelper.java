@@ -3,7 +3,7 @@ package com.telegrambotbank.helper;
 import java.lang.reflect.Field;
 
 import com.telegrambotbank.datatype.ClienteVO;
-import com.telegrambotbank.datatype.Posicao;
+import com.telegrambrank.annotation.PosicaoCliente;
 
 /**
  * Classe responsavel por receber o cliente e listar todos os comandos
@@ -53,7 +53,7 @@ public class GeneralHelper {
 	public Object getObjectByLine(String line, Object obj) throws IllegalArgumentException, IllegalAccessException{
 		try {
 		for (Field f : obj.getClass().getDeclaredFields()) {
-			   Posicao posicao = f.getDeclaredAnnotation(Posicao.class);
+			   PosicaoCliente posicao = f.getDeclaredAnnotation(PosicaoCliente.class);
 			   if (posicao != null){
 				   f.setAccessible(true);
 				   f.set(obj, line.substring(posicao.posicaoInicial(),posicao.posicaoFinal()).trim());
@@ -71,7 +71,7 @@ public class GeneralHelper {
 		try {
 			for (Field f : obj.getClass().getDeclaredFields()) {
 				aux = 0;
-				   Posicao posicao = f.getDeclaredAnnotation(Posicao.class);
+				   PosicaoCliente posicao = f.getDeclaredAnnotation(PosicaoCliente.class);
 				   if (posicao != null){
 					  f.setAccessible(true);
 					  String blankSpaces = "";

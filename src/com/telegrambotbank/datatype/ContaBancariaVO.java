@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 import com.telegrambotbank.enumeration.TipoContaCorrenteEnum;
+import com.telegrambrank.annotation.PosicaoConta;
 
 /**
  * Value Object que representa uma conta bancária
@@ -18,9 +19,17 @@ public class ContaBancariaVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private ClienteVO cliente;
+	
+	@PosicaoConta(posicaoInicial = 6, posicaoFinal = 12)
 	private String nuContaCorrete;
+	
+	@PosicaoConta(posicaoInicial = 0, posicaoFinal = 4)
 	private String agenciaBancaria;
+	
+	@PosicaoConta(posicaoInicial = 14, posicaoFinal = 24)
 	private BigDecimal saldo;
+	
+	@PosicaoConta(posicaoInicial = 119, posicaoFinal = 120)
 	private TipoContaCorrenteEnum tipo;
 
 	public ClienteVO getCliente() {
