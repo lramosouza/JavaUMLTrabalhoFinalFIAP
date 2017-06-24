@@ -7,7 +7,7 @@ import com.telegrambotbank.datatype.ContaBancariaVO;
 import com.telegrambotbank.datatype.DepositoVO;
 import com.telegrambotbank.exception.ContaInexistenteException;
 import com.telegrambotbank.exception.SaldoInsuficienteException;
-import com.telegrambotbank.opcoes.util.DepositoBancarioUtil;
+import com.telegrambotbank.opcoes.helper.DepositoBancarioHelper;
 import com.telegrambotbank.services.impl.DepositoServiceImpl;
 
 /**
@@ -24,9 +24,9 @@ public class OpcoesMediator {
 	public String depositar(ContaBancariaVO contaCorrenteDepositante, ContaBancariaVO contaCorrenteDestino, BigDecimal valorDeposito)
 			throws SaldoInsuficienteException, ContaInexistenteException, IOException {
 		
-		DepositoVO dadosDeposito =  DepositoBancarioUtil.montarDadosDepositoBancario(contaCorrenteDepositante, contaCorrenteDestino, valorDeposito);
+		DepositoVO dadosDeposito =  DepositoBancarioHelper.montarDadosDepositoBancario(contaCorrenteDepositante, contaCorrenteDestino, valorDeposito);
 		
-		return depositoServices.depositar(DepositoBancarioUtil.validarValorDeposito(dadosDeposito));
+		return depositoServices.depositar(DepositoBancarioHelper.validarValorDeposito(dadosDeposito));
 	}
 
 }

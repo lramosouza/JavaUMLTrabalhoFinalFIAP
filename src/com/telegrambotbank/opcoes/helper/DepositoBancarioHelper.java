@@ -1,4 +1,4 @@
-package com.telegrambotbank.opcoes.util;
+package com.telegrambotbank.opcoes.helper;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -16,6 +16,7 @@ import com.telegrambotbank.datatype.DepositoVO;
 import com.telegrambotbank.datatype.OperacaoVO;
 import com.telegrambotbank.exception.ContaInexistenteException;
 import com.telegrambotbank.exception.SaldoInsuficienteException;
+import com.telegrambotbank.exception.ValorInvalidoException;
 import com.telegrambotbank.opcoes.mediator.OpcoesMediator;
 
 /**
@@ -24,7 +25,7 @@ import com.telegrambotbank.opcoes.mediator.OpcoesMediator;
  * @author user
  *
  */
-public class DepositoBancarioUtil {
+public class DepositoBancarioHelper {
 
 	public static DepositoVO montarDadosDepositoBancario(ContaBancariaVO contaDepositante, ContaBancariaVO contaDestino,
 			BigDecimal valorDeposito) {
@@ -66,11 +67,11 @@ public class DepositoBancarioUtil {
 		return dadosOperacaoCredito;
 	}
 	
-	public static String solicitarNuContaDestinoDeposito(OpcoesMediator opcoesMediator, TelegramBot bot, Update update,
-			ContaBancariaVO contaCorrenteDepositante, ContaBancariaVO contaCorrenteDestino, boolean fimInformarConta,
-			String mensagemRetorno, BigDecimal valorDeposito)
+	public static void solicitarNuContaDestinoDeposito(TelegramBot bot, Update update,
+			ContaBancariaVO contaCorrenteDepositante, ContaBancariaVO contaCorrenteDestino, String mensagemRetorno, BigDecimal valorDeposito)
 			throws SaldoInsuficienteException, ContaInexistenteException, IOException {
 		GetUpdatesResponse updatesResponse;
+		boolean fimInformarConta = false;
 		int m;
 		bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
 		bot.execute(new SendMessage(update.message().chat().id(), "Favor Informe o número da conta na qual deseja depositar"));
@@ -86,17 +87,16 @@ public class DepositoBancarioUtil {
 					String resp = update3.message().text().trim();
 					if (resp != null) {
 						contaCorrenteDestino.setNuContaCorrete(resp);
-						mensagemRetorno = opcoesMediator.depositar(contaCorrenteDepositante, contaCorrenteDestino, valorDeposito);
 						fimInformarConta = true;
 					}
 				}
 		}
-		return mensagemRetorno;
 	}
 
 	public static void solicitarNuAgenciaDestinoDeposito(TelegramBot bot, Update update,
-			ContaBancariaVO contaCorrenteDestino, boolean fimInformarAgencia) {
+			ContaBancariaVO contaCorrenteDestino) {
 		GetUpdatesResponse updatesResponse;
+		boolean fimInformarAgencia = false;
 		int m;
 		bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
 		bot.execute(new SendMessage(update.message().chat().id(), "Favor Informe a Agência da conta na qual deseja depositar"));
@@ -118,8 +118,8 @@ public class DepositoBancarioUtil {
 		}
 	}
 
-	public static BigDecimal solicitarValorInformadoDeposito(TelegramBot bot, Update update,
-			boolean fimInformarValor) {
+	public static BigDecimal solicitarValorInformadoDeposito(TelegramBot bot, Update update) throws ValorInvalidoException {
+		boolean fimInformarValor = false;
 		GetUpdatesResponse updatesResponse;
 		int m;
 		//Declaração de variáveis da conta
@@ -138,8 +138,12 @@ public class DepositoBancarioUtil {
 			for (Update update1 : updates2) {
 				String resp = update1.message().text().trim();
 				if (resp != null) {
-					valorDeposito = new BigDecimal(resp);
-					fimInformarValor = true;
+					try{
+						valorDeposito = new BigDecimal(resp);
+						fimInformarValor = true;
+					}catch(Exception e){
+						throw new ValorInvalidoException();
+					}					
 				}
 			}
 		}

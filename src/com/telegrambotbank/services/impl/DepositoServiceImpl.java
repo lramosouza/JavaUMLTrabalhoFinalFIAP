@@ -7,7 +7,7 @@ import com.telegrambotbank.datatype.OperacaoVO;
 import com.telegrambotbank.exception.ContaInexistenteException;
 import com.telegrambotbank.exception.SaldoInsuficienteException;
 import com.telegrambotbank.file.util.ArquivoContaCorrenteUtil;
-import com.telegrambotbank.opcoes.util.DepositoBancarioUtil;
+import com.telegrambotbank.opcoes.helper.DepositoBancarioHelper;
 import com.telegrambotbank.services.IDepositoService;
 
 /**
@@ -27,11 +27,11 @@ public class DepositoServiceImpl implements IDepositoService {
 	public String depositar(DepositoVO dadosDeposito)
 			throws SaldoInsuficienteException, ContaInexistenteException, IOException {
 
-		OperacaoVO dadosOperacaoDebito = DepositoBancarioUtil.montarDadosOperacaoDebito(dadosDeposito);
+		OperacaoVO dadosOperacaoDebito = DepositoBancarioHelper.montarDadosOperacaoDebito(dadosDeposito);
 		
 		contaCorrenteServices.debitarContaBancaria(dadosOperacaoDebito);
 		
-		OperacaoVO dadosOperacaoCredito = DepositoBancarioUtil.montarDadosOperacaoCredito(dadosDeposito);
+		OperacaoVO dadosOperacaoCredito = DepositoBancarioHelper.montarDadosOperacaoCredito(dadosDeposito);
 
 		contaCorrenteServices.creditarContaBancaria(dadosOperacaoCredito);
 

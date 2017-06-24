@@ -1,7 +1,7 @@
 package com.telegrambotbank.main;
 
-import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 
 import com.pengrad.telegrambot.TelegramBot;
@@ -15,13 +15,14 @@ import com.pengrad.telegrambot.response.BaseResponse;
 import com.pengrad.telegrambot.response.GetUpdatesResponse;
 import com.pengrad.telegrambot.response.SendResponse;
 import com.telegrambotbank.datatype.ContaBancariaVO;
+import com.telegrambotbank.datatype.DependenteVO;
 import com.telegrambotbank.enumeration.OpcoesBotEnum;
 import com.telegrambotbank.enumeration.TipoContaCorrenteEnum;
-import com.telegrambotbank.exception.ContaInexistenteException;
-import com.telegrambotbank.exception.SaldoInsuficienteException;
+import com.telegrambotbank.exception.CampoInvalidoException;
 import com.telegrambotbank.helper.GeneralHelper;
+import com.telegrambotbank.opcoes.helper.DependenteHelper;
+import com.telegrambotbank.opcoes.helper.DepositoBancarioHelper;
 import com.telegrambotbank.opcoes.mediator.OpcoesMediator;
-import com.telegrambotbank.opcoes.util.DepositoBancarioUtil;
 
 public class Main {
 	public static void main(String[] args) {
@@ -91,29 +92,42 @@ public class Main {
 					
 					if (OpcoesBotEnum.DEPOSITAR.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)) {
 						ContaBancariaVO contaCorrenteDestino = new ContaBancariaVO();
+				
+						String mensagemRetorno = null ;
+						
+						try{
+							BigDecimal valorDeposito = DepositoBancarioHelper.solicitarValorInformadoDeposito(bot, update);
 
-						boolean fimInformarValor = false;
-						boolean fimInformarAgencia = false;
-						boolean fimInformarConta = false;
+							DepositoBancarioHelper.solicitarNuAgenciaDestinoDeposito(bot, update, contaCorrenteDestino);
+
+							DepositoBancarioHelper.solicitarNuContaDestinoDeposito(bot,
+								update, contaCorrenteDepositante, contaCorrenteDestino,
+								mensagemRetorno, valorDeposito);
+							mensagemRetorno = opcoesMediator.depositar(contaCorrenteDepositante, contaCorrenteDestino, valorDeposito);
+							
+							baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
+							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), mensagemRetorno));
+							mensagemRecebida = "";
+						}catch(Exception e){
+							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), e.getMessage()));
+						}						
+					}
+					
+					if (OpcoesBotEnum.INCLUIR_DEPENDENTE.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)) {
+						DependenteVO dependente = new DependenteVO();
 
 						String mensagemRetorno = null;
 						try{
-							BigDecimal valorDeposito = DepositoBancarioUtil.solicitarValorInformadoDeposito(bot, update,
-								fimInformarValor);
-
-							DepositoBancarioUtil.solicitarNuAgenciaDestinoDeposito(bot, update, contaCorrenteDestino,
-								fimInformarAgencia);
-
-							mensagemRetorno = DepositoBancarioUtil.solicitarNuContaDestinoDeposito(opcoesMediator, bot,
-								update, contaCorrenteDepositante, contaCorrenteDestino, fimInformarConta,
-								mensagemRetorno, valorDeposito);
+							dependente.setNomeDependente(DependenteHelper.solicitarNomeDependente(bot, update));
+						
+							mensagemRetorno = DependenteHelper.solicitarCPFDependente(bot, update, dependente);
+							
+							baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
+							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), mensagemRetorno));
+							mensagemRecebida = "";
 						}catch(Exception e){
 							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), e.getMessage()));
-
-						}
-						baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
-						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), mensagemRetorno));
-						mensagemRecebida = "";
+						}						
 					}
 				    if(OpcoesBotEnum.CRIAR_CONTA.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)){
 						String mensagemRetorno = null;

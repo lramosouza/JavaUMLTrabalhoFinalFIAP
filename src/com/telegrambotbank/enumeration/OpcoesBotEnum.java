@@ -13,7 +13,8 @@ public enum OpcoesBotEnum {
 	SACAR("/sacar"),
 	EMPRESTIMO("/emprestimo"),
 	HELP("/help"),
-	TARIFAS("/tarifas");
+	TARIFAS("/tarifas"),
+	INCLUIR_DEPENDENTE("/incluirDependente");
 	
 	
 	private String opcaoDesejada;
