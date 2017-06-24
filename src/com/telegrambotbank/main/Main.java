@@ -126,8 +126,8 @@ public class Main {
 							dependente.setCpfDependente(DependenteHelper.solicitarCPFDependente(bot, update, dependente));
 //							TODO TIRAR MOCK DA CONTA
 							OperacaoVO dadosOperacao = new OperacaoVO();
-							dadosOperacao.setContaBancaria(contaCorrenteDepositante.getNuContaCorrete());
-							dadosOperacao.setAgenciaBancaria(contaCorrenteDepositante.getAgenciaBancaria());
+							dadosOperacao.setContaBancaria(contaCorrenteDepositante.getNuContaCorrete().trim());
+							dadosOperacao.setAgenciaBancaria(contaCorrenteDepositante.getAgenciaBancaria().trim());
 //							TODO TIRAR MOCK DA CONTA
 							mensagemRetorno = opcoesMediator.cadastrarDependente(dependente, dadosOperacao);
 							baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
