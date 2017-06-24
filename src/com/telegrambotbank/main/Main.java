@@ -1,7 +1,6 @@
 package com.telegrambotbank.main;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.List;
 
 import com.pengrad.telegrambot.TelegramBot;
@@ -19,21 +18,12 @@ import com.telegrambotbank.datatype.ContaBancariaVO;
 import com.telegrambotbank.datatype.DependenteVO;
 import com.telegrambotbank.enumeration.OpcoesBotEnum;
 import com.telegrambotbank.enumeration.TipoContaCorrenteEnum;
-<<<<<<< HEAD
-import com.telegrambotbank.exception.CampoInvalidoException;
-import com.telegrambotbank.helper.GeneralHelper;
+import com.telegrambotbank.messages.GeneralMessages;
 import com.telegrambotbank.opcoes.helper.DependenteHelper;
 import com.telegrambotbank.opcoes.helper.DepositoBancarioHelper;
-=======
-import com.telegrambotbank.messages.GeneralMessages;
->>>>>>> branch 'master' of https://github.com/lramosouza/JavaUMLTrabalhoFinalFIAP
 import com.telegrambotbank.opcoes.mediator.OpcoesMediator;
-<<<<<<< HEAD
-=======
 import com.telegrambotbank.opcoes.util.ClienteUtil;
-import com.telegrambotbank.opcoes.util.DepositoBancarioUtil;
 import com.telegrambotbank.opcoes.util.Utils;
->>>>>>> branch 'master' of https://github.com/lramosouza/JavaUMLTrabalhoFinalFIAP
 
 public class Main {
 	public static void main(String[] args) {

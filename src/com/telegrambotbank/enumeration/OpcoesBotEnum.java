@@ -2,29 +2,23 @@ package com.telegrambotbank.enumeration;
 
 /**
  * Enum para centralizar as op��es dispon�veis do bot
+ * 
  * @author user
  *
  */
 public enum OpcoesBotEnum {
-	
-	CRIAR_CONTA("/criarConta"),
-	START("/start"),
-	DEPOSITAR("/depositar"),
-	SACAR("/sacar"),
-	EMPRESTIMO("/emprestimo"),
-	HELP("/help"),
-	TARIFAS("/tarifas"),
-<<<<<<< HEAD
-	INCLUIR_DEPENDENTE("/incluirDependente");
-=======
+
+	CRIAR_CONTA("/criarConta"), START("/start"), DEPOSITAR("/depositar"), SACAR("/sacar"), EMPRESTIMO(
+			"/emprestimo"), HELP("/help"), TARIFAS("/tarifas"),
+
+	INCLUIR_DEPENDENTE("/incluirDependente"),
+
 	EXTRATO("/extrato");
->>>>>>> branch 'master' of https://github.com/lramosouza/JavaUMLTrabalhoFinalFIAP
-	
-	
+
 	private String opcaoDesejada;
-	
-	OpcoesBotEnum(String opcaoDesejada){
-		this.opcaoDesejada=opcaoDesejada;
+
+	OpcoesBotEnum(String opcaoDesejada) {
+		this.opcaoDesejada = opcaoDesejada;
 	}
 
 	public String getOpcaoDesejada() {
@@ -33,6 +27,6 @@ public enum OpcoesBotEnum {
 
 	public void setOpcaoDesejada(String opcaoDesejada) {
 		this.opcaoDesejada = opcaoDesejada;
-	}	
+	}
 
 }
