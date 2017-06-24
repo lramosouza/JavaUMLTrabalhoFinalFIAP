@@ -18,17 +18,21 @@ public class GeneralHelper {
 			+ "/sacar - Realizar um saque virtual \n"
 			+ "/emprestimo - Solicitar emprestimo \n"
 			+ "/criarConta - Realizar cadastro de uma nova conta \n"
-			+ "/help - Para mais informaÃ§Ãµes  \n";
+			+ "/help - Para mais informaçõees  \n"
+			+ "/tarifas - Nossas taxas de serviços";
 	
-	private final String msgHelp = "TelegranBank tem total compromisso com nossos clientes,"
-			+ "esperamos que vocÃª esteja contente com nosso atendimento! \n"
-			+ "< br />"
-			+ "para maiores informaÃ§Ãµes, dÃºvidas ou reclamaÃ§Ãµes, ligue em nossa "
+	private final String msgHelp = "TelegranBank tem total compromisso com nossos clientes, "
+			+ "esperamos que você esteja contente com nosso atendimento! \n\n"
+			+ "para maiores informações, dúvidas ou reclamaçõees, ligue em nossa "
 			+ "central de atendimento: \n"
-			+ " 0800 4002 8922. \n"
-			+ "< br />"
+			+ " 0800 4002 8922. \n\n"
 			+ "Para acessar nossas funcionalidades, acesse o comando /start";
-									
+	
+	private final String tarifas = "Valores dos nossos servços: \n\n"
+			+ "Saque: R$2,50\n"
+			+ "Deposito: R$1,00\n"
+			+ "Extrato: R$1,50\n"
+			+ "Solicitação de Emprestimo: R$15,00";									
 									
 
 	public String getMsgBoasVindas() {
@@ -41,6 +45,11 @@ public class GeneralHelper {
 		return msgHelp;
 	}
 	
+	
+	public String getTarifas() {
+		return tarifas;
+	}
+
 	public Object getObjectByLine(String line, Object obj) throws IllegalArgumentException, IllegalAccessException{
 		try {
 		for (Field f : obj.getClass().getDeclaredFields()) {

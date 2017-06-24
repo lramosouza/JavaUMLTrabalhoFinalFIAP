@@ -12,7 +12,8 @@ public enum OpcoesBotEnum {
 	DEPOSITAR("/depositar"),
 	SACAR("/sacar"),
 	EMPRESTIMO("/emprestimo"),
-	HELP("/help");
+	HELP("/help"),
+	TARIFAS("/tarifas");
 	
 	
 	private String opcaoDesejada;

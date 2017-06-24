@@ -25,23 +25,23 @@ import com.telegrambotbank.opcoes.util.DepositoBancarioUtil;
 
 public class Main {
 	public static void main(String[] args) {
-		// Mediator responsï¿½vel por verificar qual ï¿½ a aï¿½ï¿½o a ser tomada de
-		// acordo com a opï¿½ï¿½o desejada
+		// Mediator responsável por verificar qual é a ação a ser tomada de
+		// acordo com a opção desejada
 		OpcoesMediator opcoesMediator = new OpcoesMediator();
 
-		// Criaï¿½ï¿½o do objeto bot com as informaï¿½ï¿½es de acesso
+		// Criação do objeto bot com as informações de acesso
 		TelegramBot bot = TelegramBotAdapter.build("332862407:AAGAwq3hj0XGS3y_TlrWtkQuc2Lh8deSes0");
 
-		// objeto responsï¿½vel por receber as mensagens
+		// objeto responsável por receber as mensagens
 		GetUpdatesResponse updatesResponse;
 
-		//objeto responsï¿½vel por gerenciar o envio de respostas
+		//objeto responsável por gerenciar o envio de respostas
 		SendResponse sendResponse;
 		
-		// objeto responsï¿½vel por gerenciar o envio de aï¿½ï¿½es do chat
+		// objeto responsável por gerenciar o envio de ações do chat
 		BaseResponse baseResponse;
 		
-		// Mockery TODO retirar - INï¿½CIO
+		// Mockery TODO retirar - INÍCIO
 
 		ContaBancariaVO contaCorrenteDepositante = new ContaBancariaVO();
 		contaCorrenteDepositante.setAgenciaBancaria("6252");
@@ -57,7 +57,7 @@ public class Main {
 		//contaCorrenteDepositante.setCliente(cliente);
 
 		// Mockery TODO retirar - FIM
-		// controle de off-set, isto ï¿½, a partir deste ID serï¿½ lido as
+		// controle de off-set, isto é, a partir deste ID será lido as
 		// mensagens
 		// pendentes na fila
 		int m = 0;
@@ -71,10 +71,10 @@ public class Main {
 			// lista de mensagens
 			List<Update> updates = updatesResponse.updates();
 
-			// anï¿½lise de cada aï¿½ï¿½o da mensagem
+			// análise de cada ação da mensagem
 			for (Update update : updates) {
 			
-				// atualizaï¿½ï¿½o do off-set
+				// atualização do off-set
 				m = update.updateId() + 1;
 
 				String mensagemRecebida = update.message().text();
@@ -118,7 +118,7 @@ public class Main {
 				    if(OpcoesBotEnum.CRIAR_CONTA.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)){
 						String mensagemRetorno = null;
 						
-						mensagemRetorno = "vocáº½ nÃ£o pode criar uma conta no nosso banco!";
+						mensagemRetorno = "você não pode criar uma conta no nosso banco!";
 						baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
 						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), mensagemRetorno));
 						mensagemRecebida = "";
@@ -128,6 +128,12 @@ public class Main {
 				    if(OpcoesBotEnum.HELP.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)){
 				    	baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
 						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), new GeneralHelper().getMsgHelp()));
+						mensagemRecebida = "";
+						updatesResponse = bot.execute(new GetUpdates().limit(100).offset(m+2));
+				    }
+				    if(OpcoesBotEnum.TARIFAS.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)){
+				    	baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
+						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), new GeneralHelper().getTarifas()));
 						mensagemRecebida = "";
 						updatesResponse = bot.execute(new GetUpdates().limit(100).offset(m+2));
 				    }
