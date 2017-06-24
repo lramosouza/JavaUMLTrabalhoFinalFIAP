@@ -6,6 +6,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+
+import com.telegrambotbank.datatype.DependenteVO;
+import com.telegrambotbank.exception.GravarArquivoDependenteException;
 
 /**
  * Classe responsável por efetuar a escrita no arquivo de contas correntes
@@ -34,6 +38,21 @@ public class ArquivoContaCorrenteWriterHelper {
 
 	    new File(arquivo).delete();
 	    new File(arquivoTmp).renameTo(new File(arquivo));
+	}
+
+	public void incluirNovoArquivoDependente(DependenteVO dependente, String caminho) throws IOException, GravarArquivoDependenteException {
+		try{
+			FileWriter arq = new FileWriter(caminho);
+		    PrintWriter gravarArq = new PrintWriter(arq);
+		    StringBuffer layoutDependentes = new StringBuffer();
+		    layoutDependentes.append(dependente.getNomeDependente());
+		    layoutDependentes.append(" ");
+		    layoutDependentes.append(dependente.getCpfDependente());
+		    gravarArq.print(layoutDependentes);
+		    arq.close();
+		}catch (Exception e) {
+			throw new GravarArquivoDependenteException();
+		}
 	}
 
 }

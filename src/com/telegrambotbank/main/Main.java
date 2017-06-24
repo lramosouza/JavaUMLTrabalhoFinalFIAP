@@ -16,6 +16,7 @@ import com.pengrad.telegrambot.response.SendResponse;
 import com.telegrambotbank.datatype.ClienteVO;
 import com.telegrambotbank.datatype.ContaBancariaVO;
 import com.telegrambotbank.datatype.DependenteVO;
+import com.telegrambotbank.datatype.OperacaoVO;
 import com.telegrambotbank.enumeration.OpcoesBotEnum;
 import com.telegrambotbank.enumeration.TipoContaCorrenteEnum;
 import com.telegrambotbank.messages.GeneralMessages;
@@ -118,11 +119,17 @@ public class Main {
 						DependenteVO dependente = new DependenteVO();
 
 						String mensagemRetorno = null;
+						
 						try{
 							dependente.setNomeDependente(DependenteHelper.solicitarNomeDependente(bot, update));
 						
-							mensagemRetorno = DependenteHelper.solicitarCPFDependente(bot, update, dependente);
-							
+							dependente.setCpfDependente(DependenteHelper.solicitarCPFDependente(bot, update, dependente));
+//							TODO TIRAR MOCK DA CONTA
+							OperacaoVO dadosOperacao = new OperacaoVO();
+							dadosOperacao.setContaBancaria(contaCorrenteDepositante.getNuContaCorrete());
+							dadosOperacao.setAgenciaBancaria(contaCorrenteDepositante.getAgenciaBancaria());
+//							TODO TIRAR MOCK DA CONTA
+							mensagemRetorno = opcoesMediator.cadastrarDependente(dependente, dadosOperacao);
 							baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
 							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), mensagemRetorno));
 							mensagemRecebida = "";
@@ -138,6 +145,7 @@ public class Main {
 				    	cli.setCPF(ClienteUtil.solicitarCpfCliente(bot, update));
 				    	cli.setDataNascimento(ClienteUtil.solicitarDtNascCliente(bot, update));
 				    	cli.setEmail(ClienteUtil.solicitarEmailCliente(bot, update));
+
 				    	
 				    	baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
 						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), "Estamos criando sua conta..."));

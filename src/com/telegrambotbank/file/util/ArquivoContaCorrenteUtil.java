@@ -28,6 +28,16 @@ public class ArquivoContaCorrenteUtil {
 		return caminho;
 
 	}
+	
+	public static Path obterCaminhoArquivoDependentes(String nuContaBancaria, String agenciaBancaria, String CPFDependente) {
+
+		String nomeArquivo = agenciaBancaria + "_" + nuContaBancaria + "_" + CPFDependente;
+
+		Path caminho = Paths.get(CAMINHO_INICIO + nomeArquivo + EXTENSAO);
+
+		return caminho;
+
+	}
 
 	/**
 	 * Obtem a mensagem de sucesso a partir de um arquivo de propiedades
