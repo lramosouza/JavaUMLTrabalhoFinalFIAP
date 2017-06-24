@@ -2,7 +2,7 @@ package com.telegrambotbank.datatype;
 
 import java.io.Serializable;
 
-import com.telegrambrank.annotation.PosicaoCliente;
+import com.telegrambotbank.annotation.PosicaoCliente;
 
 /**
  * Value Object que representa um cliente

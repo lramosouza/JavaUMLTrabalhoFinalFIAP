@@ -2,8 +2,8 @@ package com.telegrambotbank.messages;
 
 import java.lang.reflect.Field;
 
+import com.telegrambotbank.annotation.PosicaoCliente;
 import com.telegrambotbank.datatype.ClienteVO;
-import com.telegrambrank.annotation.PosicaoCliente;
 
 /**
  * Classe responsavel por receber o cliente e listar todos os comandos

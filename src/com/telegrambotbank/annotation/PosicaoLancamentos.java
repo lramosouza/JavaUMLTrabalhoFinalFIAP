@@ -1,4 +1,4 @@
-package com.telegrambrank.annotation;
+package com.telegrambotbank.annotation;
 
 public @interface PosicaoLancamentos {
 
