@@ -3,8 +3,8 @@ package com.telegrambotbank.datatype;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import com.telegrambotbank.annotation.PosicaoConta;
 import com.telegrambotbank.enumeration.TipoContaCorrenteEnum;
-import com.telegrambrank.annotation.PosicaoConta;
 
 /**
  * Value Object que representa uma conta bancária

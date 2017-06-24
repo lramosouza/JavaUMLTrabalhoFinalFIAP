@@ -2,7 +2,7 @@ package com.telegrambotbank.datatype;
 
 import java.io.Serializable;
 
-import com.telegrambrank.annotation.PosicaoDependente;
+import com.telegrambotbank.annotation.PosicaoDependente;
 
 /**
  * Value Object que representa um Dependente de Conta Bancaria

@@ -14,7 +14,11 @@ public enum OpcoesBotEnum {
 	EMPRESTIMO("/emprestimo"),
 	HELP("/help"),
 	TARIFAS("/tarifas"),
+<<<<<<< HEAD
 	INCLUIR_DEPENDENTE("/incluirDependente");
+=======
+	EXTRATO("/extrato");
+>>>>>>> branch 'master' of https://github.com/lramosouza/JavaUMLTrabalhoFinalFIAP
 	
 	
 	private String opcaoDesejada;

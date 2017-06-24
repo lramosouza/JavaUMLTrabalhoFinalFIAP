@@ -1,12 +1,12 @@
-package com.telegrambrank.annotation;
+package com.telegrambotbank.annotation;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Retention;
 
 @Retention(RUNTIME)
-public @interface PosicaoConta {
-	
+public @interface PosicaoEmprestimo {
+
 	int posicaoInicial();
 	int posicaoFinal();
 

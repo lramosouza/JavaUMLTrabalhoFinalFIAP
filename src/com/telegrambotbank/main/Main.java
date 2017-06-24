@@ -14,15 +14,26 @@ import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.BaseResponse;
 import com.pengrad.telegrambot.response.GetUpdatesResponse;
 import com.pengrad.telegrambot.response.SendResponse;
+import com.telegrambotbank.datatype.ClienteVO;
 import com.telegrambotbank.datatype.ContaBancariaVO;
 import com.telegrambotbank.datatype.DependenteVO;
 import com.telegrambotbank.enumeration.OpcoesBotEnum;
 import com.telegrambotbank.enumeration.TipoContaCorrenteEnum;
+<<<<<<< HEAD
 import com.telegrambotbank.exception.CampoInvalidoException;
 import com.telegrambotbank.helper.GeneralHelper;
 import com.telegrambotbank.opcoes.helper.DependenteHelper;
 import com.telegrambotbank.opcoes.helper.DepositoBancarioHelper;
+=======
+import com.telegrambotbank.messages.GeneralMessages;
+>>>>>>> branch 'master' of https://github.com/lramosouza/JavaUMLTrabalhoFinalFIAP
 import com.telegrambotbank.opcoes.mediator.OpcoesMediator;
+<<<<<<< HEAD
+=======
+import com.telegrambotbank.opcoes.util.ClienteUtil;
+import com.telegrambotbank.opcoes.util.DepositoBancarioUtil;
+import com.telegrambotbank.opcoes.util.Utils;
+>>>>>>> branch 'master' of https://github.com/lramosouza/JavaUMLTrabalhoFinalFIAP
 
 public class Main {
 	public static void main(String[] args) {
@@ -86,7 +97,7 @@ public class Main {
 			
 					if(OpcoesBotEnum.START.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)){
 						baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
-						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), new GeneralHelper().getMsgBoasVindas() ));
+						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), new GeneralMessages().getMsgBoasVindas() ));
 						mensagemRecebida = "";
 					}
 					
@@ -129,11 +140,28 @@ public class Main {
 							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), e.getMessage()));
 						}						
 					}
-				    if(OpcoesBotEnum.CRIAR_CONTA.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)){
-						String mensagemRetorno = null;
+				    if(OpcoesBotEnum.CRIAR_CONTA.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)) {				    	
+				    	
+				    	ClienteVO cli = new ClienteVO();
+				    	
+				    	cli.setNome(ClienteUtil.solicitarNomeCliente(bot, update));
+				    	cli.setCPF(ClienteUtil.solicitarCpfCliente(bot, update));
+				    	cli.setDataNascimento(ClienteUtil.solicitarDtNascCliente(bot, update));
+				    	cli.setEmail(ClienteUtil.solicitarEmailCliente(bot, update));
+				    	
+				    	baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
+						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), "Estamos criando sua conta..."));
+				    	
+				    	ContaBancariaVO cntBancaria = new ContaBancariaVO();
+				    	cntBancaria.setAgenciaBancaria(Utils.agencia());
+				    	cntBancaria.setNuContaCorrete(Utils.gerarContaCorrente());
+				    	cntBancaria.setCliente(cli);
 						
-						mensagemRetorno = "você não pode criar uma conta no nosso banco!";
-						baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
+				    	String mensagemRetorno = "Pronto! Anote o número da sua conta: \n"
+				    			+ "Agência: " + cntBancaria.getAgenciaBancaria() + "\n"
+				    			+ "Conta: " + cntBancaria.getNuContaCorrete();
+				
+				    	baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
 						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), mensagemRetorno));
 						mensagemRecebida = "";
 						updatesResponse = bot.execute(new GetUpdates().limit(100).offset(m+2));
@@ -141,13 +169,13 @@ public class Main {
 					}
 				    if(OpcoesBotEnum.HELP.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)){
 				    	baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
-						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), new GeneralHelper().getMsgHelp()));
+						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), new GeneralMessages().getMsgHelp()));
 						mensagemRecebida = "";
 						updatesResponse = bot.execute(new GetUpdates().limit(100).offset(m+2));
 				    }
 				    if(OpcoesBotEnum.TARIFAS.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)){
 				    	baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
-						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), new GeneralHelper().getTarifas()));
+						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), new GeneralMessages().getTarifas()));
 						mensagemRecebida = "";
 						updatesResponse = bot.execute(new GetUpdates().limit(100).offset(m+2));
 				    }

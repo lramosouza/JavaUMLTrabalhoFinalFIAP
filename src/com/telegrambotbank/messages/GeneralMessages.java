@@ -1,16 +1,16 @@
-package com.telegrambotbank.helper;
+package com.telegrambotbank.messages;
 
 import java.lang.reflect.Field;
 
+import com.telegrambotbank.annotation.PosicaoCliente;
 import com.telegrambotbank.datatype.ClienteVO;
-import com.telegrambrank.annotation.PosicaoCliente;
 
 /**
  * Classe responsavel por receber o cliente e listar todos os comandos
  * @author Diogo Brito
  *
  */
-public class GeneralHelper {
+public class GeneralMessages {
 
 	private final String msgBoasVindas = "Seja bem vindo(a) ao Telegram Bot Bank. "
 			+ "Segue abaixo alguns comandos importantes: \n /start - Mensagem de boas vindas e listar comandos \n "

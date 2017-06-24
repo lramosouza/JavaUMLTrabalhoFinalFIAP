@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import com.telegrambrank.annotation.PosicaoEmprestimo;
+import com.telegrambotbank.annotation.PosicaoEmprestimo;
 
 public class EmprestimoVO implements Serializable{
 

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import com.telegrambrank.annotation.PosicaoLancamentos;
+import com.telegrambotbank.annotation.PosicaoLancamentos;
 
 public class LancamentosVO implements Serializable{
 
