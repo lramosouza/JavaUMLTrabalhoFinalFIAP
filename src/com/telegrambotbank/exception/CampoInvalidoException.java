@@ -14,8 +14,8 @@ public class CampoInvalidoException extends Exception{
 		super();
 	}
 
-	public String getMessage(int positions) {
-		return "Campo inválido, excedeu o limite de posições";
+	public String getMessage() {
+		return "Acho que este campo não foi preenchido corretamente, vamos tentar novamente? :D";
 	}
 
 	public void setMessage(String message) {

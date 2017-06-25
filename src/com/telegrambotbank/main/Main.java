@@ -16,7 +16,7 @@ import com.pengrad.telegrambot.response.SendResponse;
 import com.telegrambotbank.datatype.ClienteVO;
 import com.telegrambotbank.datatype.ContaBancariaVO;
 import com.telegrambotbank.datatype.DependenteVO;
-import com.telegrambotbank.datatype.OperacaoVO;
+import com.telegrambotbank.datatype.LancamentoVO;
 import com.telegrambotbank.enumeration.OpcoesBotEnum;
 import com.telegrambotbank.enumeration.TipoContaCorrenteEnum;
 import com.telegrambotbank.messages.GeneralMessages;
@@ -38,7 +38,7 @@ public class Main {
 		// objeto responsável por receber as mensagens
 		GetUpdatesResponse updatesResponse;
 
-		//objeto responsável por gerenciar o envio de respostas
+//		objeto responsável por gerenciar o envio de respostas
 		SendResponse sendResponse;
 		
 		// objeto responsável por gerenciar o envio de ações do chat
@@ -98,18 +98,19 @@ public class Main {
 						String mensagemRetorno = null ;
 						
 						try{
+							
 							BigDecimal valorDeposito = DepositoBancarioHelper.solicitarValorInformadoDeposito(bot, update);
 
-							DepositoBancarioHelper.solicitarNuAgenciaDestinoDeposito(bot, update, contaCorrenteDestino);
+							contaCorrenteDestino.setAgenciaBancaria(DepositoBancarioHelper.solicitarNuAgenciaDestinoDeposito(bot, update));
 
-							DepositoBancarioHelper.solicitarNuContaDestinoDeposito(bot,
-								update, contaCorrenteDepositante, contaCorrenteDestino,
-								mensagemRetorno, valorDeposito);
+							contaCorrenteDestino.setNuContaCorrete(DepositoBancarioHelper.solicitarNuContaDestinoDeposito(bot, update, valorDeposito));
+							
 							mensagemRetorno = opcoesMediator.depositar(contaCorrenteDepositante, contaCorrenteDestino, valorDeposito);
 							
 							baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
 							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), mensagemRetorno));
 							mensagemRecebida = "";
+							
 						}catch(Exception e){
 							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), e.getMessage()));
 						}						
@@ -124,18 +125,41 @@ public class Main {
 							dependente.setNomeDependente(DependenteHelper.solicitarNomeDependente(bot, update));
 						
 							dependente.setCpfDependente(DependenteHelper.solicitarCPFDependente(bot, update, dependente));
-//							TODO TIRAR MOCK DA CONTA
-							OperacaoVO dadosOperacao = new OperacaoVO();
+							
+//							TODO TIRAR MOCK DA CONTA						
+							LancamentoVO dadosOperacao = new LancamentoVO();
 							dadosOperacao.setContaBancaria(contaCorrenteDepositante.getNuContaCorrete().trim());
 							dadosOperacao.setAgenciaBancaria(contaCorrenteDepositante.getAgenciaBancaria().trim());
 //							TODO TIRAR MOCK DA CONTA
+							
 							mensagemRetorno = opcoesMediator.cadastrarDependente(dependente, dadosOperacao);
+							
 							baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
 							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), mensagemRetorno));
 							mensagemRecebida = "";
+							
 						}catch(Exception e){
 							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), e.getMessage()));
 						}						
+					}
+					if (OpcoesBotEnum.EXIBIR_MINHAS_INFORMACOES.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)){
+						String mensagemRetorno = null;
+						
+//						TODO TIRAR MOCK DA CONTA						
+						LancamentoVO dadosOperacao = new LancamentoVO();
+						dadosOperacao.setContaBancaria(contaCorrenteDepositante.getNuContaCorrete().trim());
+						dadosOperacao.setAgenciaBancaria(contaCorrenteDepositante.getAgenciaBancaria().trim());
+//						TODO TIRAR MOCK DA CONTA
+						
+						try{
+							mensagemRetorno = opcoesMediator.exibirInformacoesConta(dadosOperacao);
+							baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
+							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), mensagemRetorno));
+							mensagemRecebida = "";
+						}catch (Exception e){
+							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), e.getMessage()));
+						}
+						
 					}
 				    if(OpcoesBotEnum.CRIAR_CONTA.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)) {				    	
 				    	
@@ -185,18 +209,18 @@ public class Main {
 				
 				
 				// envio de "Escrevendo" antes de enviar a resposta
-				baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
+//				baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
 
 				// verificaï¿½ï¿½o de aï¿½ï¿½o de chat foi enviada com sucesso
-				System.out.println("Resposta de Chat Action Enviada?" + baseResponse.isOk());
+//				System.out.println("Resposta de Chat Action Enviada?" + baseResponse.isOk());
 
 				// envio da mensagem de resposta
 				//sendResponse = bot.execute(new
 				 //SendMessage(update.message().chat().id(), "Nï¿½o entend..."));
 
 				// verificaï¿½ï¿½o de mensagem enviada com sucesso
-				System.out.println("Mensagem Enviada?" +
-						baseResponse.isOk());
+//				System.out.println("Mensagem Enviada?" +
+//						baseResponse.isOk());
 				
 
 			}

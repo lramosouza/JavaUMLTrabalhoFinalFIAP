@@ -12,6 +12,9 @@ import java.util.ResourceBundle;
  *
  */
 public class ArquivoContaCorrenteUtil {
+	
+	private static final String SUFIXO_DEPENDENTES = "DEPENDENTES";
+	private static final String SUFIXO_LANCAMENTOS = "LANCAMENTOS";
 
 	/**
 	 * Recebe a agência e conta e retorna a localização do arquivo
@@ -29,9 +32,15 @@ public class ArquivoContaCorrenteUtil {
 
 	}
 	
-	public static Path obterCaminhoArquivoDependentes(String nuContaBancaria, String agenciaBancaria, String CPFDependente) {
+	/**
+	 * Obtem caminho do arquivo de depententes
+	 * @param nuContaBancaria
+	 * @param agenciaBancaria
+	 * @return
+	 */
+	public static Path obterCaminhoArquivoDependentes(String nuContaBancaria, String agenciaBancaria) {
 
-		String nomeArquivo = agenciaBancaria + "_" + nuContaBancaria + "_" + CPFDependente;
+		String nomeArquivo = agenciaBancaria + "_" + nuContaBancaria + "_" + SUFIXO_DEPENDENTES;
 
 		Path caminho = Paths.get(CAMINHO_INICIO + nomeArquivo + EXTENSAO);
 
@@ -49,5 +58,29 @@ public class ArquivoContaCorrenteUtil {
 		ResourceBundle propriedades = ResourceBundle.getBundle("com.telegrambotbank.services.impl.conf.Messages");
 		return propriedades.getString(string);
 	}
+	
+	/**
+	 * Obtém o camnho do arquivo de lancamentos
+	 * @param contaBancaria
+	 * @param agenciaBancaria
+	 * @return
+	 */
+	public static Path obterCaminhoArquivoLancamentos(String contaBancaria, String agenciaBancaria) {
+		
+		String nomeArquivo = agenciaBancaria + "_" + contaBancaria + "_" + SUFIXO_LANCAMENTOS;
+
+		Path caminho = Paths.get(CAMINHO_INICIO + nomeArquivo + EXTENSAO);
+
+		return caminho;
+	}
+
+	public static String getSufixoDependentes() {
+		return SUFIXO_DEPENDENTES;
+	}
+
+	public static String getSufixoLancamentos() {
+		return SUFIXO_LANCAMENTOS;
+	}
+	
 
 }

@@ -2,7 +2,9 @@ package com.telegrambotbank.services;
 
 import java.io.IOException;
 
-import com.telegrambotbank.datatype.OperacaoVO;
+import com.telegrambotbank.datatype.LancamentoVO;
+import com.telegrambotbank.exception.ArquivoInvalidoException;
+import com.telegrambotbank.exception.GravarArquivoDependenteException;
 import com.telegrambotbank.exception.SaldoInsuficienteException;
 
 /**
@@ -16,15 +18,17 @@ public interface IContaCorrenteService {
 	 * @param dadosOperacao
 	 * @return
 	 * @throws SaldoInsuficienteException
+	 * @throws ArquivoInvalidoException 
 	 */
-	public String creditarContaBancaria(OperacaoVO dadosOperacao) throws SaldoInsuficienteException, IOException;
+	public String creditarContaBancaria(LancamentoVO dadosOperacao) throws SaldoInsuficienteException, IOException, ArquivoInvalidoException, GravarArquivoDependenteException;
 	
 	/**
 	 * Debita uma conta bancária
 	 * @param dadosOperacao
 	 * @return
 	 * @throws SaldoInsuficienteException
+	 * @throws ArquivoInvalidoException 
 	 */
-	public String debitarContaBancaria(OperacaoVO dadosOperacao) throws SaldoInsuficienteException, IOException;
+	public String debitarContaBancaria(LancamentoVO dadosOperacao) throws SaldoInsuficienteException, IOException, ArquivoInvalidoException, GravarArquivoDependenteException;
 
 }

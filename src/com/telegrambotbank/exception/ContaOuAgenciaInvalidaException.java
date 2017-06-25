@@ -5,21 +5,21 @@ package com.telegrambotbank.exception;
  * @author user
  *
  */
-public class ContaInexistenteException extends Exception {
+public class ContaOuAgenciaInvalidaException extends Exception {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private String message = "A conta de destino não existe, favor verifique os dados e tente novamente!";
+	private String message = "O número conta corrente ou agência bancária é inválido, verifique os dados e tente novamente!";
 
-	public ContaInexistenteException(String message) {
+	public ContaOuAgenciaInvalidaException(String message) {
 		super();
 		this.message = message;
 	}
 
-	public ContaInexistenteException() {
+	public ContaOuAgenciaInvalidaException() {
 		super();
 	}
 

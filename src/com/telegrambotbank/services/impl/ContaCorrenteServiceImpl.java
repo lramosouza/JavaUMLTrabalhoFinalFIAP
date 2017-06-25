@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Path;
 
-import com.telegrambotbank.datatype.OperacaoVO;
+import com.telegrambotbank.datatype.LancamentoVO;
+import com.telegrambotbank.exception.ArquivoInvalidoException;
+import com.telegrambotbank.exception.GravarArquivoDependenteException;
 import com.telegrambotbank.exception.SaldoInsuficienteException;
 import com.telegrambotbank.file.helper.ArquivoContaCorrenteReaderHelper;
 import com.telegrambotbank.file.helper.ArquivoContaCorrenteWriterHelper;
@@ -20,20 +22,23 @@ public class ContaCorrenteServiceImpl implements IContaCorrenteService{
 	/**
 	 * Efetua crédito em uma conta bancária e atualiza seu saldo
 	 * @throws IOException 
+	 * @throws ArquivoInvalidoException 
+	 * @throws GravarArquivoDependenteException 
 	 */
 	@Override
-	public String creditarContaBancaria(OperacaoVO dadosOperacao) throws SaldoInsuficienteException, IOException {
+	public String creditarContaBancaria(LancamentoVO dadosOperacao) throws SaldoInsuficienteException, IOException, ArquivoInvalidoException, GravarArquivoDependenteException {
 		
 		Path destino = ArquivoContaCorrenteUtil.obterCaminhoArquivo(dadosOperacao.getContaBancaria(), dadosOperacao.getAgenciaBancaria());
 		
 		ArquivoContaCorrenteReaderHelper arquivoContaCorrenteReader = new ArquivoContaCorrenteReaderHelper(destino);
+				
 		arquivoContaCorrenteReader.visitFile(destino, null);
 		
 		// Obtem saldo do arquivo a partir do arquivo da conta corrente
-		BigDecimal saldo = new BigDecimal(arquivoContaCorrenteReader.getDadosArquivo().substring(12, 21).trim());
+		BigDecimal saldo = new BigDecimal(arquivoContaCorrenteReader.getDadosArquivo().substring(13, 23).trim());
 		
 		// Calcula novo saldo
-		BigDecimal saldoAtual = saldo.add(dadosOperacao.getValor());
+		BigDecimal saldoAtual = saldo.add(dadosOperacao.getValorLancamento());
 		
 		// Atualiza saldo da conta corrente
 		ArquivoContaCorrenteWriterHelper arquivoContaCorrenteWriter = new ArquivoContaCorrenteWriterHelper();
@@ -44,27 +49,35 @@ public class ContaCorrenteServiceImpl implements IContaCorrenteService{
 		
 		System.out.println(mensagemRetorno);
 		
+		// grava o lançamento 
+        LancamentoServicesImpl lancamentoServices = new LancamentoServicesImpl();
+        
+        lancamentoServices.gravarLancamentoArquivo(dadosOperacao);
+            
 		return mensagemRetorno;
 	}
 	/**
 	 * Efetua o débito de conta bancária e atualiza seu saldo
+	 * @throws ArquivoInvalidoException 
+	 * @throws GravarArquivoDependenteException 
 	 */
 	@Override
-	public String debitarContaBancaria(OperacaoVO dadosOperacao) throws SaldoInsuficienteException, IOException {
+	public String debitarContaBancaria(LancamentoVO dadosOperacao) throws SaldoInsuficienteException, IOException, ArquivoInvalidoException, GravarArquivoDependenteException {
 		
 		Path destino = ArquivoContaCorrenteUtil.obterCaminhoArquivo(dadosOperacao.getContaBancaria(), dadosOperacao.getAgenciaBancaria());
 		
 		ArquivoContaCorrenteReaderHelper arquivoContaCorrenteReader = new ArquivoContaCorrenteReaderHelper(destino);
+				
 		arquivoContaCorrenteReader.visitFile(destino, null);
 		
 		//Obtem saldo do arquivo a partir do arquivo da conta corrente
-		BigDecimal saldo = new BigDecimal(arquivoContaCorrenteReader.getDadosArquivo().substring(12, 21).trim());
+		BigDecimal saldo = new BigDecimal(arquivoContaCorrenteReader.getDadosArquivo().substring(13, 23).trim());
 		
-		if (saldo.compareTo(BigDecimal.ZERO) < 0){
+		if (saldo.compareTo(BigDecimal.ZERO) == 0 || saldo.compareTo(dadosOperacao.getValorLancamento()) < 0){
 			throw new SaldoInsuficienteException();
 		}
 		// Calcula novo saldo
-		BigDecimal saldoAtual = saldo.subtract(dadosOperacao.getValor());
+		BigDecimal saldoAtual = saldo.subtract(dadosOperacao.getValorLancamento());
 		
 		//Atualiza saldo da conta corrente
 		ArquivoContaCorrenteWriterHelper arquivoContaCorrenteWriter = new ArquivoContaCorrenteWriterHelper();
@@ -75,6 +88,11 @@ public class ContaCorrenteServiceImpl implements IContaCorrenteService{
 		
 		System.out.println(mensagemRetorno);
 		
+		// grava o lançamento 
+        LancamentoServicesImpl lancamentoServices = new LancamentoServicesImpl();
+        
+        lancamentoServices.gravarLancamentoArquivo(dadosOperacao);
+            
 		return mensagemRetorno;
 	}
 

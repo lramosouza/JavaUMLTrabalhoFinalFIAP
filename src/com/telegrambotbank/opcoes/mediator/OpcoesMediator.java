@@ -6,11 +6,13 @@ import java.math.BigDecimal;
 import com.telegrambotbank.datatype.ContaBancariaVO;
 import com.telegrambotbank.datatype.DependenteVO;
 import com.telegrambotbank.datatype.DepositoVO;
-import com.telegrambotbank.datatype.OperacaoVO;
-import com.telegrambotbank.exception.ContaInexistenteException;
+import com.telegrambotbank.datatype.LancamentoVO;
+import com.telegrambotbank.exception.ArquivoInvalidoException;
+import com.telegrambotbank.exception.ContaOuAgenciaInvalidaException;
 import com.telegrambotbank.exception.GravarArquivoDependenteException;
 import com.telegrambotbank.exception.SaldoInsuficienteException;
 import com.telegrambotbank.opcoes.helper.DepositoBancarioHelper;
+import com.telegrambotbank.opcoes.helper.ExibirInformacoesContaHelper;
 import com.telegrambotbank.services.impl.DependenteServicesImpl;
 import com.telegrambotbank.services.impl.DepositoServiceImpl;
 
@@ -26,16 +28,46 @@ public class OpcoesMediator {
 	DepositoServiceImpl depositoServices = new DepositoServiceImpl();
 	DependenteServicesImpl dependenteServices = new DependenteServicesImpl();
 	
+	/**
+	 * Método responsáel pelo depósito na conta
+	 * @param contaCorrenteDepositante
+	 * @param contaCorrenteDestino
+	 * @param valorDeposito
+	 * @return
+	 * @throws SaldoInsuficienteException
+	 * @throws ContaOuAgenciaInvalidaException
+	 * @throws IOException
+	 * @throws ArquivoInvalidoException
+	 */
 	public String depositar(ContaBancariaVO contaCorrenteDepositante, ContaBancariaVO contaCorrenteDestino, BigDecimal valorDeposito)
-			throws SaldoInsuficienteException, ContaInexistenteException, IOException {
+			throws SaldoInsuficienteException, ContaOuAgenciaInvalidaException, IOException, ArquivoInvalidoException {
 		
 		DepositoVO dadosDeposito =  DepositoBancarioHelper.montarDadosDepositoBancario(contaCorrenteDepositante, contaCorrenteDestino, valorDeposito);
 		
 		return depositoServices.depositar(DepositoBancarioHelper.validarValorDeposito(dadosDeposito));
 	}
-
-	public String cadastrarDependente(DependenteVO dependente, OperacaoVO dadosOperacao) throws IOException, GravarArquivoDependenteException {
+	
+	/**
+	 * Método responsável por inclusão de dependentes
+	 * @param dependente
+	 * @param dadosOperacao
+	 * @return String
+	 * @throws IOException
+	 * @throws GravarArquivoDependenteException
+	 */
+	public String cadastrarDependente(DependenteVO dependente, LancamentoVO dadosOperacao) throws IOException, GravarArquivoDependenteException {
 		return dependenteServices.cadastrarDependente(dependente, dadosOperacao);
+	}
+	
+	/**
+	 * Método responsável pela exibição de informações da conta corrente
+	 * @param dadosOperacao
+	 * @return String
+	 * @throws ContaOuAgenciaInvalidaException 
+	 * @throws ArquivoInvalidoException 
+	 */
+	public String exibirInformacoesConta(LancamentoVO dadosOperacao) throws ArquivoInvalidoException, ContaOuAgenciaInvalidaException {
+		return ExibirInformacoesContaHelper.buscarDadosConta(dadosOperacao);
 	}
 
 }

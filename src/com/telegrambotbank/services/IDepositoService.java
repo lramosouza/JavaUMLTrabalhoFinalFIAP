@@ -3,7 +3,8 @@ package com.telegrambotbank.services;
 import java.io.IOException;
 
 import com.telegrambotbank.datatype.DepositoVO;
-import com.telegrambotbank.exception.ContaInexistenteException;
+import com.telegrambotbank.exception.ArquivoInvalidoException;
+import com.telegrambotbank.exception.ContaOuAgenciaInvalidaException;
 import com.telegrambotbank.exception.SaldoInsuficienteException;
 
 /**
@@ -19,7 +20,8 @@ public interface IDepositoService {
 	 * @param dadosDeposito
 	 * @return
 	 * @throws SaldoInsuficienteException
+	 * @throws ArquivoInvalidoException 
 	 */
-	public String depositar(DepositoVO dadosDeposito) throws SaldoInsuficienteException, ContaInexistenteException, IOException;
+	public String depositar(DepositoVO dadosDeposito) throws SaldoInsuficienteException, ContaOuAgenciaInvalidaException, IOException, ArquivoInvalidoException;
 		
 }
