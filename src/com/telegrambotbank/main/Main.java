@@ -16,12 +16,14 @@ import com.pengrad.telegrambot.response.SendResponse;
 import com.telegrambotbank.datatype.ClienteVO;
 import com.telegrambotbank.datatype.ContaBancariaVO;
 import com.telegrambotbank.datatype.DependenteVO;
+import com.telegrambotbank.datatype.EmprestimoVO;
 import com.telegrambotbank.datatype.LancamentoVO;
 import com.telegrambotbank.enumeration.OpcoesBotEnum;
 import com.telegrambotbank.enumeration.TipoContaCorrenteEnum;
 import com.telegrambotbank.messages.GeneralMessages;
 import com.telegrambotbank.opcoes.helper.DependenteHelper;
 import com.telegrambotbank.opcoes.helper.DepositoBancarioHelper;
+import com.telegrambotbank.opcoes.helper.EmprestimoHelper;
 import com.telegrambotbank.opcoes.mediator.OpcoesMediator;
 import com.telegrambotbank.opcoes.util.ClienteUtil;
 import com.telegrambotbank.opcoes.util.Utils;
@@ -90,6 +92,20 @@ public class Main {
 						baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
 						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), new GeneralMessages().getMsgBoasVindas() ));
 						mensagemRecebida = "";
+					}
+					
+					if(OpcoesBotEnum.EMPRESTIMO.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)){
+						EmprestimoVO emprestimoVO = new EmprestimoVO();
+						try{
+							//TODO Mock teste emprestimo
+							BigDecimal saldo = new BigDecimal(10000);
+							
+							emprestimoVO.setVlContratado(EmprestimoHelper.valorEmprestimoDisponivel(bot, update, saldo));
+							emprestimoVO.setPrazo(EmprestimoHelper.prazoEmprestimo(bot, update));
+							emprestimoVO.setVlCalculado(EmprestimoHelper.calculaEmprestimo(bot, update, emprestimoVO));
+						} catch(Exception e){
+							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), e.getMessage()));
+						}
 					}
 					
 					if (OpcoesBotEnum.DEPOSITAR.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)) {

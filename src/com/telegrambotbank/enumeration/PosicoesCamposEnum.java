@@ -21,7 +21,11 @@ public enum PosicoesCamposEnum {
 	// Lancamentos
 	TIPO_LANCAMENTO(1, 1),
 	VALOR_LANCAMENTO(0, 10),
-	DATA_LANCAMENTO(10, 10);
+	DATA_LANCAMENTO(10, 10),
+	
+	// Emprestimo
+	VALOR_CONTRATADO(0,10),
+	PRAZO(0,2);
 	
 	private Integer posicaoMin;
 	private Integer posicaoMax;
