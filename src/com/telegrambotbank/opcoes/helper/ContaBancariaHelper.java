@@ -50,8 +50,7 @@ public class ContaBancariaHelper {
 		} catch (IOException e) {
 			throw new ArquivoInvalidoException();
 		}
-		
-		
+				
 		dadosContaCorrente.substring(1);
 
 		return null;
