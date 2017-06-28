@@ -18,12 +18,12 @@ import com.telegrambotbank.exception.ArquivoInvalidoException;
  * @author user
  *
  */
-public class ArquivoContaCorrenteReaderHelper extends SimpleFileVisitor<Path> {
+public class ArquivoReaderHelper extends SimpleFileVisitor<Path> {
 
 	private Path destino;
 	private String dadosArquivo;
 
-	public ArquivoContaCorrenteReaderHelper(Path destino) {
+	public ArquivoReaderHelper(Path destino) {
 		this.destino = destino;
 	}
 	

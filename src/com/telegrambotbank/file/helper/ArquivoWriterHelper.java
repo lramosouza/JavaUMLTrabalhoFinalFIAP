@@ -25,7 +25,7 @@ import com.telegrambotbank.opcoes.util.Utils;
  * @author user
  *
  */
-public class ArquivoContaCorrenteWriterHelper {
+public class ArquivoWriterHelper {
 
 	public void alteraLinha(String dadoAntigo, String dadoNovo, String arquivo)
 			throws IOException, ArquivoInvalidoException {
