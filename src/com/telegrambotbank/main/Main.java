@@ -100,15 +100,20 @@ public class Main {
 					
 					} else if(OpcoesBotEnum.EMPRESTIMO.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)){
 						EmprestimoVO emprestimoVO = new EmprestimoVO();
-						
+						String mensagemRetorno = null ;
 						try{
 							//TODO Mock teste emprestimo
 							BigDecimal saldo = new BigDecimal(10000);
 							
-							ContaBancariaVO contaVo = obterAgenciaConta(bot, update);
+							ContaBancariaVO contaBancariaVO = obterAgenciaConta(bot, update);
 							emprestimoVO.setVlContratado(EmprestimoHelper.valorEmprestimoDisponivel(bot, update, saldo));
 							emprestimoVO.setPrazo(EmprestimoHelper.prazoEmprestimo(bot, update));
 							emprestimoVO.setVlCalculado(EmprestimoHelper.calculaEmprestimo(bot, update, emprestimoVO));
+							
+							mensagemRetorno = opcoesMediator.efetivarEmprestimo(emprestimoVO, contaBancariaVO);
+							baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
+							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), mensagemRetorno));
+							mensagemRecebida = "";
 						} catch(Exception e){
 							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), e.getMessage()));
 						}
