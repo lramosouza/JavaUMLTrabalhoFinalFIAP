@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.telegrambotbank.datatype.ContaBancariaVO;
 import com.telegrambotbank.datatype.EmprestimoVO;
 import com.telegrambotbank.exception.ArquivoInvalidoException;
+import com.telegrambotbank.exception.SaldoInsuficienteException;
 
 /**
  * Serviços disponíveis para Empréstimo
@@ -13,5 +14,5 @@ import com.telegrambotbank.exception.ArquivoInvalidoException;
  */
 public interface EmprestimoService {
 	
-	public String efetivarEmprestimo(EmprestimoVO emprestimoVO, ContaBancariaVO contaBancariaVO) throws IOException, ArquivoInvalidoException; 
+	public String efetivarEmprestimo(EmprestimoVO emprestimoVO, ContaBancariaVO contaBancariaVO) throws IOException, ArquivoInvalidoException, SaldoInsuficienteException; 
 }
