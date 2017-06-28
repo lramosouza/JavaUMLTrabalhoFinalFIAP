@@ -29,7 +29,7 @@ public class LancamentoServicesImpl implements ILancamentoServices{
 
 		StringBuffer blanksValor = Utils.completarBlanks(nuPossicoesPreencherBlankValor);
 		
-		//Montar layout linha lancamento
+		//Montar layout linha lancamento 
 		StringBuffer layoutLancamentos = new StringBuffer();
 
 		layoutLancamentos.append(lancamento.getTipoLancamento());
