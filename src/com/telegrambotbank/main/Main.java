@@ -23,7 +23,6 @@ import com.telegrambotbank.enumeration.OpcoesBotEnum;
 import com.telegrambotbank.enumeration.TipoContaCorrenteEnum;
 import com.telegrambotbank.exception.CampoInvalidoException;
 import com.telegrambotbank.exception.ContaOuAgenciaInvalidaException;
-import com.telegrambotbank.exception.SaldoInsuficienteException;
 import com.telegrambotbank.messages.GeneralMessages;
 import com.telegrambotbank.opcoes.helper.DependenteHelper;
 import com.telegrambotbank.opcoes.helper.DepositoBancarioHelper;
@@ -101,11 +100,12 @@ public class Main {
 					
 					} else if(OpcoesBotEnum.EMPRESTIMO.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)){
 						EmprestimoVO emprestimoVO = new EmprestimoVO();
-						ContaBancariaVO contaCorrenteDestino = new ContaBancariaVO();
+						
 						try{
 							//TODO Mock teste emprestimo
 							BigDecimal saldo = new BigDecimal(10000);
 							
+							ContaBancariaVO contaVo = obterAgenciaConta(bot, update);
 							emprestimoVO.setVlContratado(EmprestimoHelper.valorEmprestimoDisponivel(bot, update, saldo));
 							emprestimoVO.setPrazo(EmprestimoHelper.prazoEmprestimo(bot, update));
 							emprestimoVO.setVlCalculado(EmprestimoHelper.calculaEmprestimo(bot, update, emprestimoVO));
@@ -245,7 +245,7 @@ public class Main {
 		}
 	}
 	
-	public ContaBancariaVO obterAgenciaConta(TelegramBot bot, Update update) throws CampoInvalidoException, ContaOuAgenciaInvalidaException, IOException{
+	public static ContaBancariaVO obterAgenciaConta(TelegramBot bot, Update update) throws CampoInvalidoException, ContaOuAgenciaInvalidaException, IOException{
 		ContaBancariaVO vo = new ContaBancariaVO();
 		
 		vo.setAgenciaBancaria(ObterAgenciaContaHelper.solicitarNuAgencia(bot, update));
