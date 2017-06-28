@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import com.telegrambotbank.datatype.ContaBancariaVO;
 import com.telegrambotbank.datatype.DependenteVO;
 import com.telegrambotbank.datatype.DepositoVO;
+import com.telegrambotbank.datatype.EmprestimoVO;
 import com.telegrambotbank.datatype.LancamentoVO;
 import com.telegrambotbank.exception.ArquivoInvalidoException;
 import com.telegrambotbank.exception.ContaOuAgenciaInvalidaException;
@@ -13,6 +14,7 @@ import com.telegrambotbank.exception.GravarArquivoDependenteException;
 import com.telegrambotbank.exception.SaldoInsuficienteException;
 import com.telegrambotbank.opcoes.helper.DepositoBancarioHelper;
 import com.telegrambotbank.opcoes.helper.ContaBancariaHelper;
+import com.telegrambotbank.services.EmprestimoService;
 import com.telegrambotbank.services.impl.DependenteServicesImpl;
 import com.telegrambotbank.services.impl.DepositoServiceImpl;
 
@@ -28,6 +30,12 @@ public class OpcoesMediator {
 	DepositoServiceImpl depositoServices = new DepositoServiceImpl();
 	DependenteServicesImpl dependenteServices = new DependenteServicesImpl();
 	
+	EmprestimoService emprestimoService;
+	
+	public void setEmprestimoService(EmprestimoService emprestimoService) {
+		this.emprestimoService = emprestimoService;
+	}
+
 	/**
 	 * Método responsáel pelo depósito na conta
 	 * @param contaCorrenteDepositante
@@ -68,6 +76,17 @@ public class OpcoesMediator {
 	 */
 	public String exibirInformacoesConta(LancamentoVO dadosOperacao) throws ArquivoInvalidoException, ContaOuAgenciaInvalidaException {
 		return ContaBancariaHelper.buscarDadosConta(dadosOperacao);
+	}
+	
+	/**
+	 * Método responsável pela a efetivação do Empréstimo
+	 * @param vo
+	 * @return String
+	 * @throws IOException
+	 * @throws ArquivoInvalidoException
+	 */
+	public String efetivarEmprestimo(EmprestimoVO emprestimoVO, ContaBancariaVO contaBancariaVO) throws IOException, ArquivoInvalidoException {
+		return emprestimoService.efetivarEmprestimo(emprestimoVO, contaBancariaVO);
 	}
 
 }
