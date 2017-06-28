@@ -8,8 +8,8 @@ import com.telegrambotbank.datatype.LancamentoVO;
 import com.telegrambotbank.exception.ArquivoInvalidoException;
 import com.telegrambotbank.exception.GravarArquivoDependenteException;
 import com.telegrambotbank.exception.SaldoInsuficienteException;
-import com.telegrambotbank.file.helper.ArquivoContaCorrenteReaderHelper;
-import com.telegrambotbank.file.helper.ArquivoContaCorrenteWriterHelper;
+import com.telegrambotbank.file.helper.ArquivoReaderHelper;
+import com.telegrambotbank.file.helper.ArquivoWriterHelper;
 import com.telegrambotbank.file.util.ArquivoContaCorrenteUtil;
 import com.telegrambotbank.services.IContaCorrenteService;
 
@@ -30,7 +30,7 @@ public class ContaCorrenteServiceImpl implements IContaCorrenteService{
 		
 		Path destino = ArquivoContaCorrenteUtil.obterCaminhoArquivo(dadosOperacao.getContaBancaria(), dadosOperacao.getAgenciaBancaria());
 		
-		ArquivoContaCorrenteReaderHelper arquivoContaCorrenteReader = new ArquivoContaCorrenteReaderHelper(destino);
+		ArquivoReaderHelper arquivoContaCorrenteReader = new ArquivoReaderHelper(destino);
 				
 		arquivoContaCorrenteReader.visitFile(destino, null);
 		
@@ -41,7 +41,7 @@ public class ContaCorrenteServiceImpl implements IContaCorrenteService{
 		BigDecimal saldoAtual = saldo.add(dadosOperacao.getValorLancamento());
 		
 		// Atualiza saldo da conta corrente
-		ArquivoContaCorrenteWriterHelper arquivoContaCorrenteWriter = new ArquivoContaCorrenteWriterHelper();
+		ArquivoWriterHelper arquivoContaCorrenteWriter = new ArquivoWriterHelper();
 		arquivoContaCorrenteWriter.alteraLinha(saldo.toString(), saldoAtual.toString(), destino.toString());
 		
 		// Obtem mensagem de sucesso
@@ -66,7 +66,7 @@ public class ContaCorrenteServiceImpl implements IContaCorrenteService{
 		
 		Path destino = ArquivoContaCorrenteUtil.obterCaminhoArquivo(dadosOperacao.getContaBancaria(), dadosOperacao.getAgenciaBancaria());
 		
-		ArquivoContaCorrenteReaderHelper arquivoContaCorrenteReader = new ArquivoContaCorrenteReaderHelper(destino);
+		ArquivoReaderHelper arquivoContaCorrenteReader = new ArquivoReaderHelper(destino);
 				
 		arquivoContaCorrenteReader.visitFile(destino, null);
 		
@@ -80,7 +80,7 @@ public class ContaCorrenteServiceImpl implements IContaCorrenteService{
 		BigDecimal saldoAtual = saldo.subtract(dadosOperacao.getValorLancamento());
 		
 		//Atualiza saldo da conta corrente
-		ArquivoContaCorrenteWriterHelper arquivoContaCorrenteWriter = new ArquivoContaCorrenteWriterHelper();
+		ArquivoWriterHelper arquivoContaCorrenteWriter = new ArquivoWriterHelper();
 		arquivoContaCorrenteWriter.alteraLinha(saldo.toString(), saldoAtual.toString(), destino.toString());
 		
 		// Obtem mensagem de sucesso

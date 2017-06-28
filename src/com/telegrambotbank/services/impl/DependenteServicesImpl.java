@@ -8,7 +8,7 @@ import com.telegrambotbank.datatype.LancamentoVO;
 import com.telegrambotbank.enumeration.PosicoesCamposEnum;
 import com.telegrambotbank.enumeration.StringUtilsEnum;
 import com.telegrambotbank.exception.GravarArquivoDependenteException;
-import com.telegrambotbank.file.helper.ArquivoContaCorrenteWriterHelper;
+import com.telegrambotbank.file.helper.ArquivoWriterHelper;
 import com.telegrambotbank.file.util.ArquivoContaCorrenteUtil;
 import com.telegrambotbank.opcoes.util.Utils;
 
@@ -19,7 +19,7 @@ public class DependenteServicesImpl {
 		
 		
 		// Salva dependente no arquivo
-		ArquivoContaCorrenteWriterHelper arquivoContaCorrenteWriter = new ArquivoContaCorrenteWriterHelper();
+		ArquivoWriterHelper arquivoContaCorrenteWriter = new ArquivoWriterHelper();
 
 		int nuPossicoesPreencherBlank = PosicoesCamposEnum.NOME_DEPENDENTE.getPosicaoMax() - dependente.getNomeDependente().length() - 1;
 
@@ -36,6 +36,7 @@ public class DependenteServicesImpl {
 		arquivoContaCorrenteWriter.gravarNovoArquivo(dependente, destino.toString(), layoutDependentes);
 		
 		String mensagemRetorno = ArquivoContaCorrenteUtil.obterMensagemSucesso("incluir.dependente.sucesso");
+		
 		System.out.println(mensagemRetorno);
 
 		return mensagemRetorno;

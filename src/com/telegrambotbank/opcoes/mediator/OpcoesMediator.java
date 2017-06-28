@@ -12,7 +12,7 @@ import com.telegrambotbank.exception.ContaOuAgenciaInvalidaException;
 import com.telegrambotbank.exception.GravarArquivoDependenteException;
 import com.telegrambotbank.exception.SaldoInsuficienteException;
 import com.telegrambotbank.opcoes.helper.DepositoBancarioHelper;
-import com.telegrambotbank.opcoes.helper.ExibirInformacoesContaHelper;
+import com.telegrambotbank.opcoes.helper.ContaBancariaHelper;
 import com.telegrambotbank.services.impl.DependenteServicesImpl;
 import com.telegrambotbank.services.impl.DepositoServiceImpl;
 
@@ -67,7 +67,7 @@ public class OpcoesMediator {
 	 * @throws ArquivoInvalidoException 
 	 */
 	public String exibirInformacoesConta(LancamentoVO dadosOperacao) throws ArquivoInvalidoException, ContaOuAgenciaInvalidaException {
-		return ExibirInformacoesContaHelper.buscarDadosConta(dadosOperacao);
+		return ContaBancariaHelper.buscarDadosConta(dadosOperacao);
 	}
 
 }

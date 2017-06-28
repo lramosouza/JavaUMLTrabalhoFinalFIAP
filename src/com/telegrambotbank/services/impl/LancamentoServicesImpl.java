@@ -6,7 +6,7 @@ import com.telegrambotbank.datatype.LancamentoVO;
 import com.telegrambotbank.enumeration.PosicoesCamposEnum;
 import com.telegrambotbank.enumeration.StringUtilsEnum;
 import com.telegrambotbank.exception.GravarArquivoDependenteException;
-import com.telegrambotbank.file.helper.ArquivoContaCorrenteWriterHelper;
+import com.telegrambotbank.file.helper.ArquivoWriterHelper;
 import com.telegrambotbank.file.util.ArquivoContaCorrenteUtil;
 import com.telegrambotbank.opcoes.util.Utils;
 import com.telegrambotbank.services.ILancamentoServices;
@@ -21,7 +21,7 @@ public class LancamentoServicesImpl implements ILancamentoServices{
 	@Override
 	public String gravarLancamentoArquivo(LancamentoVO lancamento) throws GravarArquivoDependenteException {
 		
-		ArquivoContaCorrenteWriterHelper arquivoContaCorrenteWriter = new ArquivoContaCorrenteWriterHelper();
+		ArquivoWriterHelper arquivoContaCorrenteWriter = new ArquivoWriterHelper();
 		
 		Path caminho = ArquivoContaCorrenteUtil.obterCaminhoArquivoLancamentos(lancamento.getContaBancaria(), lancamento.getAgenciaBancaria());
 		
