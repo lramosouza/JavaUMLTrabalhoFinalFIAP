@@ -33,7 +33,7 @@ public class DependenteServicesImpl {
 
 		layoutDependentes.append(ArquivoContaCorrenteUtil.getSufixoDependentes());
 
-		arquivoContaCorrenteWriter.gravarNovoArquivo(dependente, destino.toString(), layoutDependentes);
+		arquivoContaCorrenteWriter.gravarNovoArquivo(destino.toString(), layoutDependentes);
 		
 		String mensagemRetorno = ArquivoContaCorrenteUtil.obterMensagemSucesso("incluir.dependente.sucesso");
 		

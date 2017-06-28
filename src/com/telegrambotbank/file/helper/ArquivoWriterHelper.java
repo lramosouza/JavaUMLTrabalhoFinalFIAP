@@ -1,4 +1,4 @@
-package com.telegrambotbank.file.helper;
+ 	package com.telegrambotbank.file.helper;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -53,7 +53,7 @@ public class ArquivoWriterHelper {
 		}
 	}
 
-	public void gravarNovoArquivo(DependenteVO dependente, String caminho, StringBuffer layout)
+	public void gravarNovoArquivo(String caminho, StringBuffer layout)
 			throws IOException, GravarArquivoDependenteException {
 		try {
 			FileWriter arq = new FileWriter(caminho);
@@ -75,7 +75,7 @@ public class ArquivoWriterHelper {
 	 * @param caminho
 	 * @throws GravarArquivoDependenteException 
 	 */
-	public void inserirLinha(LancamentoVO lancamento, Path caminho, StringBuffer layout) throws GravarArquivoDependenteException {
+	public void inserirLinha(Path caminho, StringBuffer layout) throws GravarArquivoDependenteException {
 		
 		PrintWriter gravarArq = null;
 		

@@ -40,7 +40,7 @@ public class LancamentoServicesImpl implements ILancamentoServices{
 		
 		
 		try{
-			arquivoContaCorrenteWriter.inserirLinha(lancamento, caminho, layoutLancamentos);
+			arquivoContaCorrenteWriter.inserirLinha(caminho, layoutLancamentos);
 		}catch(Exception e){
 			throw new GravarArquivoDependenteException();
 		}

@@ -3,7 +3,9 @@ package com.telegrambotbank.opcoes.helper;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import com.telegrambotbank.datatype.DadosTitularVO;
 import com.telegrambotbank.datatype.LancamentoVO;
+import com.telegrambotbank.enumeration.PosicoesCamposEnum;
 import com.telegrambotbank.exception.ArquivoInvalidoException;
 import com.telegrambotbank.exception.ContaOuAgenciaInvalidaException;
 import com.telegrambotbank.file.helper.ArquivoReaderHelper;
@@ -50,8 +52,10 @@ public class ContaBancariaHelper {
 		} catch (IOException e) {
 			throw new ArquivoInvalidoException();
 		}
-				
-		dadosContaCorrente.substring(1);
+		
+		DadosTitularVO dadosTitular = new DadosTitularVO(); 
+//		dadosTitular.setDadosDependente(dadosContaCorrente.substring(0,100).trim());
+		
 
 		return null;
 	}
