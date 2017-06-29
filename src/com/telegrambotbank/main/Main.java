@@ -2,6 +2,7 @@ package com.telegrambotbank.main;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import com.pengrad.telegrambot.TelegramBot;
@@ -106,9 +107,13 @@ public class Main {
 							BigDecimal saldo = new BigDecimal(10000);
 							
 							ContaBancariaVO contaBancariaVO = obterAgenciaConta(bot, update);
+							emprestimoVO.setCodEmprestimo(Integer.parseInt(contaBancariaVO.getAgenciaBancaria()+contaBancariaVO.getNuContaCorrete()));
 							emprestimoVO.setVlContratado(EmprestimoHelper.valorEmprestimoDisponivel(bot, update, saldo));
 							emprestimoVO.setPrazo(EmprestimoHelper.prazoEmprestimo(bot, update));
-							emprestimoVO.setVlCalculado(EmprestimoHelper.calculaEmprestimo(bot, update, emprestimoVO));
+							emprestimoVO.setVlCalculado(emprestimoVO.getVlParcela().multiply(new BigDecimal(emprestimoVO.getPrazo().toString())));
+							emprestimoVO.setDtContracao(new Date());
+							emprestimoVO.setVlParcela(EmprestimoHelper.calculaEmprestimo(bot, update, emprestimoVO));
+							
 							
 							mensagemRetorno = opcoesMediator.efetivarEmprestimo(emprestimoVO, contaBancariaVO);
 							baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));

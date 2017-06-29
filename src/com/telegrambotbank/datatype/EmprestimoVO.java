@@ -3,6 +3,7 @@ package com.telegrambotbank.datatype;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class EmprestimoVO implements Serializable{
 
@@ -17,7 +18,7 @@ public class EmprestimoVO implements Serializable{
 	
 	private BigDecimal vlParcela;
 	
-	private LocalDate dtContracao;
+	private Date dtContracao;
 	
 	private Integer prazo;
 
@@ -54,11 +55,11 @@ public class EmprestimoVO implements Serializable{
 		this.vlParcela = vlParcela;
 	}
 
-	public LocalDate getDtContracao() {
+	public Date getDtContracao() {
 		return dtContracao;
 	}
 
-	public void setDtContracao(LocalDate dtContracao) {
+	public void setDtContracao(Date dtContracao) {
 		this.dtContracao = dtContracao;
 	}
 

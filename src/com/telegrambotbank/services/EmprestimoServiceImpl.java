@@ -54,6 +54,9 @@ public class EmprestimoServiceImpl implements EmprestimoService {
 	}
 	
 	public void setArquivoWriterHelper(ArquivoWriterHelper arquivoWriterHelper) {
+		
+		arquivoWriterHelper = new ArquivoWriterHelper();
+		
 		this.arquivoWriterHelper = arquivoWriterHelper;
 	}
 

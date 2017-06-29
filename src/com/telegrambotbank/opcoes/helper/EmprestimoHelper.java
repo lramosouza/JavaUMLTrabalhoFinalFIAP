@@ -96,8 +96,8 @@ public class EmprestimoHelper {
 		BigDecimal iof = new BigDecimal("15.0");
 		
 		BigDecimal juros = vo.getVlContratado().multiply(taxa).multiply(new BigDecimal(vo.getPrazo().toString()));
-		BigDecimal valorCalculado = vo.getVlContratado().add(juros.add(iof));		
-		vo.setVlCalculado(valorCalculado.divide(new BigDecimal(vo.getPrazo().toString())).divide(new BigDecimal("1.3"),3,RoundingMode.UP));
+		BigDecimal valorParcela = vo.getVlContratado().add(juros.add(iof));		
+		vo.setVlCalculado(valorParcela.divide(new BigDecimal(vo.getPrazo().toString())).divide(new BigDecimal("1.3"),3,RoundingMode.UP));
 		
 		bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
 		bot.execute(new SendMessage(update.message().chat().id(), vo.getPrazo()+"X de R$ " +vo.getVlCalculado()));
