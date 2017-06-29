@@ -1,4 +1,4 @@
-package com.telegrambotbank.file.helper;
+ 	package com.telegrambotbank.file.helper;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -7,17 +7,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 
-import com.telegrambotbank.datatype.DependenteVO;
-import com.telegrambotbank.datatype.LancamentoVO;
-import com.telegrambotbank.enumeration.PosicoesCamposEnum;
-import com.telegrambotbank.enumeration.StringUtilsEnum;
 import com.telegrambotbank.exception.ArquivoInvalidoException;
 import com.telegrambotbank.exception.GravarArquivoDependenteException;
-import com.telegrambotbank.file.util.ArquivoContaCorrenteUtil;
-import com.telegrambotbank.opcoes.util.Utils;
 
 /**
  * Classe responsável por efetuar a escrita no arquivo de contas correntes
@@ -25,7 +18,7 @@ import com.telegrambotbank.opcoes.util.Utils;
  * @author user
  *
  */
-public class ArquivoContaCorrenteWriterHelper {
+public class ArquivoWriterHelper {
 
 	public void alteraLinha(String dadoAntigo, String dadoNovo, String arquivo)
 			throws IOException, ArquivoInvalidoException {
@@ -53,7 +46,7 @@ public class ArquivoContaCorrenteWriterHelper {
 		}
 	}
 
-	public void gravarNovoArquivo(DependenteVO dependente, String caminho, StringBuffer layout)
+	public void gravarNovoArquivo(String caminho, StringBuffer layout)
 			throws IOException, GravarArquivoDependenteException {
 		try {
 			FileWriter arq = new FileWriter(caminho);
@@ -75,7 +68,7 @@ public class ArquivoContaCorrenteWriterHelper {
 	 * @param caminho
 	 * @throws GravarArquivoDependenteException 
 	 */
-	public void inserirLinha(LancamentoVO lancamento, Path caminho, StringBuffer layout) throws GravarArquivoDependenteException {
+	public void inserirLinha(Path caminho, StringBuffer layout) throws GravarArquivoDependenteException {
 		
 		PrintWriter gravarArq = null;
 		
