@@ -14,23 +14,19 @@ import com.telegrambotbank.enumeration.TipoContaCorrenteEnum;
  */
 public class ContaBancariaVO implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private ClienteVO cliente;
-	
-	@PosicaoConta(posicaoInicial = 6, posicaoFinal = 12)
-	private String nuContaCorrete;
-	
+
 	@PosicaoConta(posicaoInicial = 0, posicaoFinal = 4)
 	private String agenciaBancaria;
-	
+
+	@PosicaoConta(posicaoInicial = 6, posicaoFinal = 12)
+	private String nuContaCorrete;
+
+	private TipoContaCorrenteEnum tipo;
+
 	@PosicaoConta(posicaoInicial = 14, posicaoFinal = 24)
 	private BigDecimal saldo;
-	
-	@PosicaoConta(posicaoInicial = 119, posicaoFinal = 120)
-	private TipoContaCorrenteEnum tipo;
 
 	public ClienteVO getCliente() {
 		return cliente;
