@@ -30,7 +30,11 @@ public enum PosicoesCamposEnum {
 	DATA_LANCAMENTO(10, 10),
 	
 	// Emprestimo
+	CODIGO_EMPRESTIMO(0,14),
 	VALOR_CONTRATADO(0,10),
+	VALOR_CALCULADO(0,10),
+	VALOR_PARCELA(0,10),
+	DATA_CONTRATACAO(0,10),
 	PRAZO(0,2);
 	
 	private Integer posicaoMin;
