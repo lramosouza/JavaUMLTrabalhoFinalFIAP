@@ -7,17 +7,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 
 import com.telegrambotbank.datatype.DependenteVO;
 import com.telegrambotbank.datatype.LancamentoVO;
-import com.telegrambotbank.enumeration.PosicoesCamposEnum;
-import com.telegrambotbank.enumeration.StringUtilsEnum;
 import com.telegrambotbank.exception.ArquivoInvalidoException;
 import com.telegrambotbank.exception.GravarArquivoDependenteException;
-import com.telegrambotbank.file.util.ArquivoContaCorrenteUtil;
-import com.telegrambotbank.opcoes.util.Utils;
 
 /**
  * Classe responsável por efetuar a escrita no arquivo de contas correntes
@@ -68,6 +63,23 @@ public class ArquivoContaCorrenteWriterHelper {
 			throw new GravarArquivoDependenteException();
 		}
 	}
+	
+	
+	public static void criarArquivoConta(String caminho, StringBuffer layout)
+			throws IOException, GravarArquivoDependenteException {
+		try {
+			FileWriter arq = new FileWriter(caminho);
+
+			PrintWriter gravarArq = new PrintWriter(arq);
+
+			gravarArq.print(layout);
+
+			arq.close();
+
+		} catch (Exception e) {
+			throw new GravarArquivoDependenteException();
+		}
+	}	
 	
 	/**
 	 * Registra no arquivo de lançamentos, os dados do lançamento efetuado

@@ -20,11 +20,12 @@ public class ClienteVO implements Serializable {
 	@PosicaoCliente(posicaoInicial = 26, posicaoFinal = 105)
 	private String nome;
 	
+	@PosicaoCliente(posicaoInicial = 107, posicaoFinal = 118)
+	private String CPF;
+
 	@PosicaoCliente(posicaoInicial = 122, posicaoFinal = 132)
 	private String dataNascimento;
 	
-	@PosicaoCliente(posicaoInicial = 107, posicaoFinal = 118)
-	private String CPF;
 	
 	@PosicaoCliente(posicaoInicial = 134, posicaoFinal = 144)
 	private String email;

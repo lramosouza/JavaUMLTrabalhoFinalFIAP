@@ -8,7 +8,7 @@ import com.telegrambotbank.exception.ContaOuAgenciaInvalidaException;
 import com.telegrambotbank.file.helper.ArquivoContaCorrenteReaderHelper;
 import com.telegrambotbank.file.util.ArquivoContaCorrenteUtil;
 
-public class ExibirInformacoesContaHelper {
+public class ContaBancariaHelper {
 
 	public static String buscarDadosConta(LancamentoVO dadosOperacao) throws ArquivoInvalidoException, ContaOuAgenciaInvalidaException {
 		

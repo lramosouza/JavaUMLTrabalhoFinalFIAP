@@ -51,7 +51,6 @@ public class Main {
 		ContaBancariaVO contaCorrenteDepositante = new ContaBancariaVO();
 		contaCorrenteDepositante.setAgenciaBancaria("6252");
 		contaCorrenteDepositante.setNuContaCorrete("176117");
-		contaCorrenteDepositante.setTipo(TipoContaCorrenteEnum.SIMPLES);
 
 		/*ClienteVO cliente = new ClienteVO();
 		cliente.setCPF(new BigDecimal("42847256881"));
@@ -198,6 +197,12 @@ public class Main {
 				    	String mensagemRetorno = "Pronto! Anote o número da sua conta: \n"
 				    			+ "Agência: " + cntBancaria.getAgenciaBancaria() + "\n"
 				    			+ "Conta: " + cntBancaria.getNuContaCorrete();
+				    	
+				    	try{				    		
+				    		opcoesMediator.criarArquivoConta(cntBancaria);
+				    	} catch (Exception e) {
+				    		System.out.println(e.getMessage());
+						}
 				
 				    	baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
 						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), mensagemRetorno));

@@ -7,6 +7,13 @@ package com.telegrambotbank.enumeration;
  */
 public enum PosicoesCamposEnum {
 	
+	// Clientess
+	NOME_CLIENTE(0,100),
+	CPF_CLIENTE(0,11),
+	DATA_NASCIMENTO_CLIENTE(0,10),
+	EMAIL_CLIENTE(0,100),
+	TIPO_CONTA_CLIENTE(0,1),
+	
 	// Dependentes
 	NOME_DEPENDENTE(0, 100), 
 	CPF_DEPENDENTE(11, 11),
@@ -14,6 +21,7 @@ public enum PosicoesCamposEnum {
 	// Conta Corrente
 	NU_CONTA_CORRENTE(6,6),
 	AGENCIA_CONTA_CORRENTE(0,4),
+	SALDO(0,10),
 	
 	// Valor Deposito
 	VALOR_DEPOSITO(0, 10),

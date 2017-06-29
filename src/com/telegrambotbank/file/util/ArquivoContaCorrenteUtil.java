@@ -32,6 +32,12 @@ public class ArquivoContaCorrenteUtil {
 
 	}
 	
+	public static String criarCaminhoArquivo(String nuContaBancaria, String agenciaBancaria){
+		String nomeArquivo = CAMINHO_INICIO + agenciaBancaria + "_" + nuContaBancaria + EXTENSAO;
+		
+		return nomeArquivo;
+	} 
+	
 	/**
 	 * Obtem caminho do arquivo de depententes
 	 * @param nuContaBancaria
