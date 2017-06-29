@@ -5,7 +5,7 @@ package com.telegrambotbank.enumeration;
  * @author user
  *
  */
-public enum TipoContaCorrenteEnum {
+public enum TipoContaCorrenteEnum { 
 
 	CONJUNTA(1), SIMPLES(2);
 

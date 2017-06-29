@@ -77,7 +77,7 @@ public class ArquivoWriterHelper {
 
 			gravarArq = new PrintWriter(arq);
 
-			gravarArq.println(layout.toString());
+			gravarArq.println("\n"+layout.toString());
 
 			gravarArq.close();
 			arq.close();

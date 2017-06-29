@@ -9,7 +9,7 @@ import com.telegrambotbank.exception.GravarArquivoDependenteException;
  * @author BRQVotorantim
  *
  */
-public interface ILancamentoServices {
+public interface LancamentoServices {
 	
 	/**
 	 * Método que efetua a gravação das informações do lançamento em um arquivo

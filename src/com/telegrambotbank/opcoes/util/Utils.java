@@ -1,6 +1,9 @@
 package com.telegrambotbank.opcoes.util;
 
+import java.math.BigInteger;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.Random;
 
 import com.telegrambotbank.enumeration.StringUtilsEnum;
@@ -38,12 +41,10 @@ public class Utils {
 	 * @param data
 	 * @return
 	 */
+	
 	public static LocalDate converteData(String data) {
 
-		int dia = Integer.parseInt(data.substring(0, 1));
-		int mes = Integer.parseInt(data.substring(3, 5));
-		int ano = Integer.parseInt(data.substring(7, 10));
-		LocalDate dataConvertida = LocalDate.of(ano, mes, dia);
+		LocalDate dataConvertida = LocalDate.parse(data, DateTimeFormatter.ofPattern("dd-MM-YYYY"));
 
 		return dataConvertida;
 	}

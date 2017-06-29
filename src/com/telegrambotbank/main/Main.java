@@ -223,6 +223,13 @@ public class Main {
 						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), new GeneralMessages().getTarifas()));
 						mensagemRecebida = "";
 						updatesResponse = bot.execute(new GetUpdates().limit(100).offset(m+2));
+				    }else if (OpcoesBotEnum.SACAR.getOpcaoDesejada().equals(mensagemRecebida)){
+				    	baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
+//				    	OpcoesMediator 
+//						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), new GeneralMessages().getTarifas()));
+//						mensagemRecebida = "";
+//						updatesResponse = bot.execute(new GetUpdates().limit(100).offset(m+2));
+				    	
 				    }
 
 //					baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));

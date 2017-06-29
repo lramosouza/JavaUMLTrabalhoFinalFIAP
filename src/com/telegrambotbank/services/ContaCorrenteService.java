@@ -12,7 +12,7 @@ import com.telegrambotbank.exception.SaldoInsuficienteException;
  * @author user
  *
  */
-public interface IContaCorrenteService {
+public interface ContaCorrenteService {
 	/**
 	 * Credita uma conta bancária
 	 * @param dadosOperacao

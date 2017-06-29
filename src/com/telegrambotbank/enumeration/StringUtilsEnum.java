@@ -7,7 +7,7 @@ package com.telegrambotbank.enumeration;
  */
 public enum StringUtilsEnum {
 
-	BLANK(" ");
+	BLANK(" "), PULAR_LINHA("\n");
 
 	private String blank = " ";
 

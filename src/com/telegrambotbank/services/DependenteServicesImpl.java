@@ -1,4 +1,4 @@
-package com.telegrambotbank.services.impl;
+package com.telegrambotbank.services;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -33,7 +33,7 @@ public class DependenteServicesImpl {
 
 		layoutDependentes.append(ArquivoContaCorrenteUtil.getSufixoDependentes());
 
-		arquivoContaCorrenteWriter.gravarNovoArquivo(destino.toString(), layoutDependentes);
+		arquivoContaCorrenteWriter.inserirLinha(destino, layoutDependentes);
 		
 		String mensagemRetorno = ArquivoContaCorrenteUtil.obterMensagemSucesso("incluir.dependente.sucesso");
 		

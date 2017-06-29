@@ -1,4 +1,4 @@
-package com.telegrambotbank.services.impl;
+package com.telegrambotbank.services;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -11,20 +11,24 @@ import com.telegrambotbank.exception.SaldoInsuficienteException;
 import com.telegrambotbank.file.helper.ArquivoReaderHelper;
 import com.telegrambotbank.file.helper.ArquivoWriterHelper;
 import com.telegrambotbank.file.util.ArquivoContaCorrenteUtil;
-import com.telegrambotbank.services.IContaCorrenteService;
 
 /**
  * Implementação dos serviços da conta corrente
  * @author user
  *
  */
-public class ContaCorrenteServiceImpl implements IContaCorrenteService{
+public class ContaCorrenteServiceImpl implements ContaCorrenteService{
+	
+	LancamentoServicesImpl lancamentoServices = new LancamentoServicesImpl();
+	
 	/**
 	 * Efetua crédito em uma conta bancária e atualiza seu saldo
 	 * @throws IOException 
 	 * @throws ArquivoInvalidoException 
 	 * @throws GravarArquivoDependenteException 
 	 */
+	
+	
 	@Override
 	public String creditarContaBancaria(LancamentoVO dadosOperacao) throws SaldoInsuficienteException, IOException, ArquivoInvalidoException, GravarArquivoDependenteException {
 		
@@ -49,8 +53,8 @@ public class ContaCorrenteServiceImpl implements IContaCorrenteService{
 		
 		System.out.println(mensagemRetorno);
 		
-		// grava o lançamento 
-        LancamentoServicesImpl lancamentoServices = new LancamentoServicesImpl();
+		
+		// grava o lançamento 		
         
         lancamentoServices.gravarLancamentoArquivo(dadosOperacao);
             
@@ -89,7 +93,6 @@ public class ContaCorrenteServiceImpl implements IContaCorrenteService{
 		System.out.println(mensagemRetorno);
 		
 		// grava o lançamento 
-        LancamentoServicesImpl lancamentoServices = new LancamentoServicesImpl();
         
         lancamentoServices.gravarLancamentoArquivo(dadosOperacao);
             
