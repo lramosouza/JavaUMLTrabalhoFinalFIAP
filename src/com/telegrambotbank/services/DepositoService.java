@@ -12,7 +12,8 @@ import com.telegrambotbank.exception.SaldoInsuficienteException;
  * @author user
  *
  */
-public interface IDepositoService {
+
+public interface DepositoService {
 	
 	/**
 	 * Método responsável por efetuar um depósito bancário entre contas
@@ -22,6 +23,7 @@ public interface IDepositoService {
 	 * @throws SaldoInsuficienteException
 	 * @throws ArquivoInvalidoException 
 	 */
+	
 	public String depositar(DepositoVO dadosDeposito) throws SaldoInsuficienteException, ContaOuAgenciaInvalidaException, IOException, ArquivoInvalidoException;
 		
 }

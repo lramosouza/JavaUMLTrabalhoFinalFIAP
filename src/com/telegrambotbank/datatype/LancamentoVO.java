@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import com.telegrambotbank.enumeration.TipoLancamentoEnum;
-
 /**
  * Value Object que representa uma operação
  * 
@@ -24,6 +22,7 @@ public class LancamentoVO implements Serializable {
 	private String agenciaBancaria;
 	private String tipoLancamento;
 	private LocalDate dataLancamento;
+	private BigDecimal valorTarifa;
 
 	public BigDecimal getValorLancamento() {
 		return valorLancamento;
@@ -65,8 +64,12 @@ public class LancamentoVO implements Serializable {
 		this.dataLancamento = dataLancamento;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public BigDecimal getValorTarifa() {
+		return valorTarifa;
+	}
+
+	public void setValorTarifa(BigDecimal valorTarifa) {
+		this.valorTarifa = valorTarifa;
 	}
 
 }

@@ -26,24 +26,24 @@ public class ArquivoReaderHelper extends SimpleFileVisitor<Path> {
 	public ArquivoReaderHelper(Path destino) {
 		this.destino = destino;
 	}
-	
+
 	/**
 	 * Implementação de um visitFlile responsável por ler o arquivo
 	 */
 	@Override
 	public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-		
-		try{
+
+		try {
 			PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:*.txt");
 			System.out.println("Analisando arquivo: " + file.getFileName() + "....");
-			if(matcher.matches(file.getFileName())) {
+			if (matcher.matches(file.getFileName())) {
 				List<String> listaArquivos = Files.readAllLines(file);
-	
+
 				listaArquivos.forEach(item -> {
 					setDadosArquivo(item);
 				});
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			throw new ArquivoInvalidoException();
 		}
 		return FileVisitResult.CONTINUE;
@@ -53,13 +53,13 @@ public class ArquivoReaderHelper extends SimpleFileVisitor<Path> {
 	public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
 		System.out.println("Falhou ");
 		return FileVisitResult.TERMINATE;
-		
+
 	}
-	
-	public boolean isArquivoExistente(Path file) throws ArquivoInvalidoException{
-		try{
+
+	public boolean isArquivoExistente(Path file) throws ArquivoInvalidoException {
+		try {
 			return Files.exists(file);
-		}catch(Exception e){
+		} catch (Exception e) {
 			throw new ArquivoInvalidoException();
 		}
 	}

@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="lib/java-telegram-bot-api-3.0.0.jar"/>
 	<classpathentry kind="lib" path="lib/okhttp-3.8.0.jar"/>
 	<classpathentry kind="lib" path="lib/okio-1.13.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

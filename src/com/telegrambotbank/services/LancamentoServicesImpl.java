@@ -1,4 +1,4 @@
-package com.telegrambotbank.services.impl;
+package com.telegrambotbank.services;
 
 import java.nio.file.Path;
 
@@ -9,14 +9,13 @@ import com.telegrambotbank.exception.GravarArquivoDependenteException;
 import com.telegrambotbank.file.helper.ArquivoWriterHelper;
 import com.telegrambotbank.file.util.ArquivoContaCorrenteUtil;
 import com.telegrambotbank.opcoes.util.Utils;
-import com.telegrambotbank.services.ILancamentoServices;
 
 /**
  * Implementação dos serviços do Lancamento
  * @author BRQVotorantim
  *
  */
-public class LancamentoServicesImpl implements ILancamentoServices{
+public class LancamentoServicesImpl implements LancamentoServices{
 
 	@Override
 	public String gravarLancamentoArquivo(LancamentoVO lancamento) throws GravarArquivoDependenteException {

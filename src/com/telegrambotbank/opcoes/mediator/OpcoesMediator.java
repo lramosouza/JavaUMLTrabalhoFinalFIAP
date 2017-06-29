@@ -12,11 +12,14 @@ import com.telegrambotbank.exception.ArquivoInvalidoException;
 import com.telegrambotbank.exception.ContaOuAgenciaInvalidaException;
 import com.telegrambotbank.exception.GravarArquivoDependenteException;
 import com.telegrambotbank.exception.SaldoInsuficienteException;
-import com.telegrambotbank.opcoes.helper.DepositoBancarioHelper;
 import com.telegrambotbank.opcoes.helper.ContaBancariaHelper;
+import com.telegrambotbank.opcoes.helper.DepositoBancarioHelper;
+import com.telegrambotbank.opcoes.helper.SaqueHelper;
+import com.telegrambotbank.services.DependenteServices;
+import com.telegrambotbank.services.DependenteServicesImpl;
+import com.telegrambotbank.services.DepositoService;
+import com.telegrambotbank.services.DepositoServiceImpl;
 import com.telegrambotbank.services.EmprestimoService;
-import com.telegrambotbank.services.impl.DependenteServicesImpl;
-import com.telegrambotbank.services.impl.DepositoServiceImpl;
 
 /**
  * Mediator (Controller) responsável por direcionar a aplicação para o serviço
@@ -29,15 +32,11 @@ public class OpcoesMediator {
 
 	DepositoServiceImpl depositoServices = new DepositoServiceImpl();
 	DependenteServicesImpl dependenteServices = new DependenteServicesImpl();
-	
 	EmprestimoService emprestimoService;
-	
-	public void setEmprestimoService(EmprestimoService emprestimoService) {
-		this.emprestimoService = emprestimoService;
-	}
 
 	/**
 	 * Método responsáel pelo depósito na conta
+	 * 
 	 * @param contaCorrenteDepositante
 	 * @param contaCorrenteDestino
 	 * @param valorDeposito
@@ -47,48 +46,65 @@ public class OpcoesMediator {
 	 * @throws IOException
 	 * @throws ArquivoInvalidoException
 	 */
-	public String depositar(ContaBancariaVO contaCorrenteDepositante, ContaBancariaVO contaCorrenteDestino, BigDecimal valorDeposito)
+	public String depositar(ContaBancariaVO contaCorrenteDepositante, ContaBancariaVO contaCorrenteDestino,
+			BigDecimal valorDeposito)
 			throws SaldoInsuficienteException, ContaOuAgenciaInvalidaException, IOException, ArquivoInvalidoException {
-		
-		DepositoVO dadosDeposito =  DepositoBancarioHelper.montarDadosDepositoBancario(contaCorrenteDepositante, contaCorrenteDestino, valorDeposito);
-		
+
+		DepositoVO dadosDeposito = DepositoBancarioHelper.montarDadosDepositoBancario(contaCorrenteDepositante,
+				contaCorrenteDestino, valorDeposito);
+
 		return depositoServices.depositar(DepositoBancarioHelper.validarValorDeposito(dadosDeposito));
 	}
-	
+
 	/**
 	 * Método responsável por inclusão de dependentes
+	 * 
 	 * @param dependente
 	 * @param dadosOperacao
 	 * @return String
 	 * @throws IOException
 	 * @throws GravarArquivoDependenteException
 	 */
-	public String cadastrarDependente(DependenteVO dependente, LancamentoVO dadosOperacao) throws IOException, GravarArquivoDependenteException {
+	public String cadastrarDependente(DependenteVO dependente, LancamentoVO dadosOperacao)
+			throws IOException, GravarArquivoDependenteException {
 		return dependenteServices.cadastrarDependente(dependente, dadosOperacao);
 	}
-	
+
 	/**
 	 * Método responsável pela exibição de informações da conta corrente
+	 * 
 	 * @param dadosOperacao
 	 * @return String
-	 * @throws ContaOuAgenciaInvalidaException 
-	 * @throws ArquivoInvalidoException 
+	 * @throws ContaOuAgenciaInvalidaException
+	 * @throws ArquivoInvalidoException
 	 */
-	public String exibirInformacoesConta(LancamentoVO dadosOperacao) throws ArquivoInvalidoException, ContaOuAgenciaInvalidaException {
+	public String exibirInformacoesConta(LancamentoVO dadosOperacao)
+			throws ArquivoInvalidoException, ContaOuAgenciaInvalidaException {
 		return ContaBancariaHelper.buscarDadosConta(dadosOperacao);
 	}
 	
+	public String sacarDinheiro(LancamentoVO dadosOperacao) throws ContaOuAgenciaInvalidaException, SaldoInsuficienteException, IOException, GravarArquivoDependenteException {
+		return SaqueHelper.sacarDinheiro(dadosOperacao);
+	}
+
 	/**
 	 * Método responsável pela a efetivação do Empréstimo
+	 * 
 	 * @param vo
 	 * @return String
 	 * @throws IOException
 	 * @throws ArquivoInvalidoException
-	 * @throws SaldoInsuficienteException 
-	 * @throws GravarArquivoDependenteException 
+	 * @throws SaldoInsuficienteException
+	 * @throws GravarArquivoDependenteException
 	 */
-	public String efetivarEmprestimo(EmprestimoVO emprestimoVO, ContaBancariaVO contaBancariaVO) throws IOException, ArquivoInvalidoException, SaldoInsuficienteException, GravarArquivoDependenteException {
+	public String efetivarEmprestimo(EmprestimoVO emprestimoVO, ContaBancariaVO contaBancariaVO)
+			throws IOException, ArquivoInvalidoException, SaldoInsuficienteException, GravarArquivoDependenteException {
 		return emprestimoService.efetivarEmprestimo(emprestimoVO, contaBancariaVO);
+	}
+
+
+	public void setEmprestimoService(EmprestimoService emprestimoService) {
+		this.emprestimoService = emprestimoService;
 	}
 
 }

@@ -56,7 +56,6 @@ public class Main {
 		ContaBancariaVO contaCorrenteDepositante = new ContaBancariaVO();
 		contaCorrenteDepositante.setAgenciaBancaria("6252");
 		contaCorrenteDepositante.setNuContaCorrete("176117");
-		contaCorrenteDepositante.setTipo(TipoContaCorrenteEnum.SIMPLES);
 
 		/*ClienteVO cliente = new ClienteVO();
 		cliente.setCPF(new BigDecimal("42847256881"));
@@ -211,6 +210,12 @@ public class Main {
 				    	String mensagemRetorno = "Pronto! Anote o número da sua conta: \n"
 				    			+ "Agência: " + cntBancaria.getAgenciaBancaria() + "\n"
 				    			+ "Conta: " + cntBancaria.getNuContaCorrete();
+				    	
+				    	try{				    		
+//				    		opcoesMediator.criarArquivoConta(cntBancaria); //FIXME
+				    	} catch (Exception e) {
+				    		System.out.println(e.getMessage());
+						}
 				
 				    	baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
 						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), mensagemRetorno));
@@ -228,6 +233,13 @@ public class Main {
 						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), new GeneralMessages().getTarifas()));
 						mensagemRecebida = "";
 						updatesResponse = bot.execute(new GetUpdates().limit(100).offset(m+2));
+				    }else if (OpcoesBotEnum.SACAR.getOpcaoDesejada().equals(mensagemRecebida)){
+				    	baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
+//				    	OpcoesMediator 
+//						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), new GeneralMessages().getTarifas()));
+//						mensagemRecebida = "";
+//						updatesResponse = bot.execute(new GetUpdates().limit(100).offset(m+2));
+				    	
 				    }
 
 //					baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));

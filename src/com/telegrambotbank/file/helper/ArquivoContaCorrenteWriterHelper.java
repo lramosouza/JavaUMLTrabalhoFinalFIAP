@@ -1,4 +1,4 @@
- 	package com.telegrambotbank.file.helper;
+package com.telegrambotbank.file.helper;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Path;
 
+import com.telegrambotbank.datatype.DependenteVO;
+import com.telegrambotbank.datatype.LancamentoVO;
 import com.telegrambotbank.exception.ArquivoInvalidoException;
 import com.telegrambotbank.exception.GravarArquivoDependenteException;
 
@@ -18,7 +20,7 @@ import com.telegrambotbank.exception.GravarArquivoDependenteException;
  * @author user
  *
  */
-public class ArquivoWriterHelper {
+public class ArquivoContaCorrenteWriterHelper {
 
 	public void alteraLinha(String dadoAntigo, String dadoNovo, String arquivo)
 			throws IOException, ArquivoInvalidoException {
@@ -46,7 +48,7 @@ public class ArquivoWriterHelper {
 		}
 	}
 
-	public void gravarNovoArquivo(String caminho, StringBuffer layout)
+	public void gravarNovoArquivo(DependenteVO dependente, String caminho, StringBuffer layout)
 			throws IOException, GravarArquivoDependenteException {
 		try {
 			FileWriter arq = new FileWriter(caminho);
@@ -62,13 +64,30 @@ public class ArquivoWriterHelper {
 		}
 	}
 	
+	
+	public static void criarArquivoConta(String caminho, StringBuffer layout)
+			throws IOException, GravarArquivoDependenteException {
+		try {
+			FileWriter arq = new FileWriter(caminho);
+
+			PrintWriter gravarArq = new PrintWriter(arq);
+
+			gravarArq.print(layout);
+
+			arq.close();
+
+		} catch (Exception e) {
+			throw new GravarArquivoDependenteException();
+		}
+	}	
+	
 	/**
 	 * Registra no arquivo de lançamentos, os dados do lançamento efetuado
 	 * @param lancamento
 	 * @param caminho
 	 * @throws GravarArquivoDependenteException 
 	 */
-	public void inserirLinha(Path caminho, StringBuffer layout) throws GravarArquivoDependenteException {
+	public void inserirLinha(LancamentoVO lancamento, Path caminho, StringBuffer layout) throws GravarArquivoDependenteException {
 		
 		PrintWriter gravarArq = null;
 		
@@ -77,7 +96,7 @@ public class ArquivoWriterHelper {
 
 			gravarArq = new PrintWriter(arq);
 
-			gravarArq.println("\n"+layout.toString());
+			gravarArq.println(layout.toString());
 
 			gravarArq.close();
 			arq.close();
