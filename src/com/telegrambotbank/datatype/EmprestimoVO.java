@@ -4,29 +4,21 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import com.telegrambotbank.annotation.PosicaoEmprestimo;
-
 public class EmprestimoVO implements Serializable{
 
 	
 	private static final long serialVersionUID = 1L;
 
-	@PosicaoEmprestimo(posicaoInicial = 1, posicaoFinal = 14)
 	private Integer codEmprestimo;
 	
-	@PosicaoEmprestimo(posicaoInicial = 16, posicaoFinal = 26)
 	private BigDecimal vlContratado;
 	
-	@PosicaoEmprestimo(posicaoInicial = 28, posicaoFinal = 38)
 	private BigDecimal vlCalculado;
 	
-	@PosicaoEmprestimo(posicaoInicial = 40, posicaoFinal = 50)
 	private BigDecimal vlParcela;
 	
-	@PosicaoEmprestimo(posicaoInicial = 52, posicaoFinal = 62)
 	private LocalDate dtContracao;
 	
-	@PosicaoEmprestimo(posicaoInicial = 64, posicaoFinal = 66)
 	private Integer prazo;
 
 	

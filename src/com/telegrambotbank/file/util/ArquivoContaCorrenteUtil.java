@@ -15,13 +15,24 @@ public class ArquivoContaCorrenteUtil {
 	
 	private static final String SUFIXO_DEPENDENTES = "DEPENDENTES";
 	private static final String SUFIXO_LANCAMENTOS = "LANCAMENTOS";
+	private static final String SUFIXO_EMPRESTIMO = "EMPRESTIMO";
 
 	/**
 	 * Recebe a agência e conta e retorna a localização do arquivo
 	 */
 	private final static String EXTENSAO = ".txt";
 	private final static String CAMINHO_INICIO = "C:\\TelegramBOTApp\\";
+	
+	public static Path obterCaminhoArquivoEmprestimo(String nuContaBancaria, String agenciaBancaria) {
 
+		String nomeArquivo = agenciaBancaria + "_" + nuContaBancaria + "_" + SUFIXO_EMPRESTIMO;
+
+		Path caminho = Paths.get(CAMINHO_INICIO + nomeArquivo + EXTENSAO);
+
+		return caminho;
+
+	}
+	
 	public static Path obterCaminhoArquivo(String nuContaBancaria, String agenciaBancaria) {
 
 		String nomeArquivo = agenciaBancaria + "_" + nuContaBancaria;

@@ -85,8 +85,9 @@ public class OpcoesMediator {
 	 * @throws IOException
 	 * @throws ArquivoInvalidoException
 	 * @throws SaldoInsuficienteException 
+	 * @throws GravarArquivoDependenteException 
 	 */
-	public String efetivarEmprestimo(EmprestimoVO emprestimoVO, ContaBancariaVO contaBancariaVO) throws IOException, ArquivoInvalidoException, SaldoInsuficienteException {
+	public String efetivarEmprestimo(EmprestimoVO emprestimoVO, ContaBancariaVO contaBancariaVO) throws IOException, ArquivoInvalidoException, SaldoInsuficienteException, GravarArquivoDependenteException {
 		return emprestimoService.efetivarEmprestimo(emprestimoVO, contaBancariaVO);
 	}
 
