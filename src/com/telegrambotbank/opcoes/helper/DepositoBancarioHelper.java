@@ -24,7 +24,7 @@ import com.telegrambotbank.exception.CampoInvalidoException;
 import com.telegrambotbank.exception.ContaOuAgenciaInvalidaException;
 import com.telegrambotbank.exception.SaldoInsuficienteException;
 import com.telegrambotbank.exception.ValorInvalidoException;
-import com.telegrambotbank.file.helper.ArquivoContaCorrenteReaderHelper;
+import com.telegrambotbank.file.helper.ArquivoReaderHelper;
 import com.telegrambotbank.file.util.ArquivoContaCorrenteUtil;
 import com.telegrambotbank.opcoes.util.Utils;
 
@@ -210,7 +210,7 @@ public class DepositoBancarioHelper {
 		Path arquivoDebito = ArquivoContaCorrenteUtil.obterCaminhoArquivo(dadosOperacaoDebito.getContaBancaria(),
 				dadosOperacaoDebito.getAgenciaBancaria());
 		
-		ArquivoContaCorrenteReaderHelper arquivoContaCorrenteReaderDebito = new ArquivoContaCorrenteReaderHelper(
+		ArquivoReaderHelper arquivoContaCorrenteReaderDebito = new ArquivoReaderHelper(
 				arquivoDebito);
 		
 		if (!arquivoContaCorrenteReaderDebito.isArquivoExistente(arquivoDebito)) {
@@ -220,7 +220,7 @@ public class DepositoBancarioHelper {
 		Path arquivoCredito = ArquivoContaCorrenteUtil.obterCaminhoArquivo(dadosOperacaoCredito.getContaBancaria(),
 				dadosOperacaoCredito.getAgenciaBancaria());
 		
-		ArquivoContaCorrenteReaderHelper arquivoContaCorrenteReaderCredito = new ArquivoContaCorrenteReaderHelper(
+		ArquivoReaderHelper arquivoContaCorrenteReaderCredito = new ArquivoReaderHelper(
 				arquivoCredito);
 
 		if (!arquivoContaCorrenteReaderCredito.isArquivoExistente(arquivoCredito)) {

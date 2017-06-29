@@ -9,7 +9,6 @@ public enum PosicoesCamposEnum {
 	
 	// Clientess
 	NOME_CLIENTE(0,100),
-	CPF_CLIENTE(0,11),
 	DATA_NASCIMENTO_CLIENTE(0,10),
 	EMAIL_CLIENTE(0,100),
 	TIPO_CONTA_CLIENTE(0,1),
@@ -21,7 +20,6 @@ public enum PosicoesCamposEnum {
 	// Conta Corrente
 	NU_CONTA_CORRENTE(6,6),
 	AGENCIA_CONTA_CORRENTE(0,4),
-	SALDO(0,10),
 	
 	// Valor Deposito
 	VALOR_DEPOSITO(0, 10),
@@ -32,7 +30,11 @@ public enum PosicoesCamposEnum {
 	DATA_LANCAMENTO(10, 10),
 	
 	// Emprestimo
+	CODIGO_EMPRESTIMO(0,14),
 	VALOR_CONTRATADO(0,10),
+	VALOR_CALCULADO(0,10),
+	VALOR_PARCELA(0,10),
+	DATA_CONTRATACAO(0,10),
 	PRAZO(0,2);
 	
 	private Integer posicaoMin;
