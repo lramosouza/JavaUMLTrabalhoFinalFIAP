@@ -15,11 +15,9 @@ import com.telegrambotbank.exception.SaldoInsuficienteException;
 import com.telegrambotbank.opcoes.helper.ContaBancariaHelper;
 import com.telegrambotbank.opcoes.helper.DepositoBancarioHelper;
 import com.telegrambotbank.opcoes.helper.SaqueHelper;
-import com.telegrambotbank.services.DependenteServices;
 import com.telegrambotbank.services.DependenteServicesImpl;
-import com.telegrambotbank.services.DepositoService;
 import com.telegrambotbank.services.DepositoServiceImpl;
-import com.telegrambotbank.services.EmprestimoService;
+import com.telegrambotbank.services.EmprestimoServiceImpl;
 
 /**
  * Mediator (Controller) responsável por direcionar a aplicação para o serviço
@@ -32,7 +30,8 @@ public class OpcoesMediator {
 
 	DepositoServiceImpl depositoServices = new DepositoServiceImpl();
 	DependenteServicesImpl dependenteServices = new DependenteServicesImpl();
-	EmprestimoService emprestimoService;
+	
+	EmprestimoServiceImpl emprestimoService = new EmprestimoServiceImpl();
 
 	/**
 	 * Método responsáel pelo depósito na conta
@@ -102,9 +101,5 @@ public class OpcoesMediator {
 		return emprestimoService.efetivarEmprestimo(emprestimoVO, contaBancariaVO);
 	}
 
-
-	public void setEmprestimoService(EmprestimoService emprestimoService) {
-		this.emprestimoService = emprestimoService;
-	}
 
 }
