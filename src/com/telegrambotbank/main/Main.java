@@ -40,7 +40,7 @@ public class Main {
 		OpcoesMediator opcoesMediator = new OpcoesMediator();
 
 		// Criação do objeto bot com as informações de acesso
-		TelegramBot bot = TelegramBotAdapter.build("332862407:AAGAwq3hj0XGS3y_TlrWtkQuc2Lh8deSes0");
+		TelegramBot bot = TelegramBotAdapter.build("394153562:AAHSfc6mdvRYAiVM3Cpx99ScodsTcAzqaiY");
 
 		// objeto responsável por receber as mensagens
 		GetUpdatesResponse updatesResponse;
