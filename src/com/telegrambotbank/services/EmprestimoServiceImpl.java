@@ -3,6 +3,7 @@ package com.telegrambotbank.services;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Path;
+import java.text.SimpleDateFormat;
 
 import com.telegrambotbank.datatype.ContaBancariaVO;
 import com.telegrambotbank.datatype.EmprestimoVO;
@@ -20,20 +21,14 @@ public class EmprestimoServiceImpl implements EmprestimoService {
 	@Override
 	public String efetivarEmprestimo(EmprestimoVO emprestimoVO, ContaBancariaVO contaBancariaVO) throws IOException, ArquivoInvalidoException, SaldoInsuficienteException, GravarArquivoDependenteException {
 		Path destino = ArquivoContaCorrenteUtil.obterCaminhoArquivo(contaBancariaVO.getNuContaCorrete(), contaBancariaVO.getAgenciaBancaria());
-		//ArquivoReaderHelper arquivoContaCorrenteReader = new ArquivoReaderHelper(destino);
-		
-		//Obtem saldo do arquivo a partir do arquivo da conta corrente
-//		BigDecimal saldo = new BigDecimal(arquivoContaCorrenteReader.getDadosArquivo().substring(13, 23).trim());
-//		if (saldo.compareTo(BigDecimal.ZERO) == 0 || saldo == null){ 
-//			throw new SaldoInsuficienteException();
-//		}
-		
+				
 		StringBuffer layoutEmprestimo = new StringBuffer();
 		//layoutEmprestimo.append(emprestimoVO.getCodEmprestimo().toString()).append(preencheBlanck(PosicoesCamposEnum.CODIGO_EMPRESTIMO.getPosicaoMax(), emprestimoVO.getCodEmprestimo().toString().length()));
 		layoutEmprestimo.append(emprestimoVO.getVlContratado().toString()).append(preencheBlanck(PosicoesCamposEnum.VALOR_CONTRATADO.getPosicaoMax(), emprestimoVO.getVlContratado().toString().length()));
 		layoutEmprestimo.append(emprestimoVO.getVlCalculado().toString()).append(preencheBlanck(PosicoesCamposEnum.VALOR_CALCULADO.getPosicaoMax(), emprestimoVO.getVlCalculado().toString().length()));
 		layoutEmprestimo.append(emprestimoVO.getVlParcela().toString()).append(preencheBlanck(PosicoesCamposEnum.VALOR_PARCELA.getPosicaoMax(), emprestimoVO.getVlParcela().toString().length()));
-		layoutEmprestimo.append(emprestimoVO.getDtContracao().toString());
+		SimpleDateFormat formataData = new SimpleDateFormat("dd/MM/yyyy");
+		layoutEmprestimo.append(formataData.format(emprestimoVO.getDtContracao()));
 		layoutEmprestimo.append(emprestimoVO.getPrazo().toString());
 		
 		ArquivoWriterHelper arquivoWriterHelper = new ArquivoWriterHelper();
