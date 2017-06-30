@@ -126,7 +126,7 @@ public class Main {
 							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), mensagemRetorno));
 							mensagemRecebida = "";
 							
-						}catch(Exception e){
+						}catch(Exception e){ 
 							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), e.getMessage()));
 						}						
 					
