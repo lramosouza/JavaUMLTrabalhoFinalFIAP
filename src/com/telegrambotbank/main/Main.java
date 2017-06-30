@@ -21,7 +21,6 @@ import com.telegrambotbank.datatype.DependenteVO;
 import com.telegrambotbank.datatype.EmprestimoVO;
 import com.telegrambotbank.datatype.LancamentoVO;
 import com.telegrambotbank.enumeration.OpcoesBotEnum;
-import com.telegrambotbank.enumeration.TipoContaCorrenteEnum;
 import com.telegrambotbank.exception.CampoInvalidoException;
 import com.telegrambotbank.exception.ContaOuAgenciaInvalidaException;
 import com.telegrambotbank.messages.GeneralMessages;
@@ -40,7 +39,11 @@ public class Main {
 		OpcoesMediator opcoesMediator = new OpcoesMediator();
 
 		// Criação do objeto bot com as informações de acesso
+<<<<<<< HEAD
 		TelegramBot bot = TelegramBotAdapter.build("394153562:AAHSfc6mdvRYAiVM3Cpx99ScodsTcAzqaiY");
+=======
+		TelegramBot bot = TelegramBotAdapter.build("332862407:AAE6LMtF2A9q5w9QBm7rqw9Cfsv46_ypVoc");
+>>>>>>> branch 'master' of https://github.com/lramosouza/JavaUMLTrabalhoFinalFIAP.git
 
 		// objeto responsável por receber as mensagens
 		GetUpdatesResponse updatesResponse;
@@ -51,23 +54,6 @@ public class Main {
 		// objeto responsável por gerenciar o envio de ações do chat
 		BaseResponse baseResponse;
 		
-		// Mockery TODO retirar - INÍCIO
-
-		ContaBancariaVO contaCorrenteDepositante = new ContaBancariaVO();
-		contaCorrenteDepositante.setAgenciaBancaria("6252");
-		contaCorrenteDepositante.setNuContaCorrete("176117");
-
-		/*ClienteVO cliente = new ClienteVO();
-		cliente.setCPF(new BigDecimal("42847256881"));
-		cliente.setDataNascimento(new Date());
-		cliente.setEmail("teste@teste.com.br");
-		cliente.setNome("Teste Leandro");*/
-
-		//contaCorrenteDepositante.setCliente(cliente);
-
-		// Mockery TODO retirar - FIM
-		// controle de off-set, isto é, a partir deste ID será lido as
-		// mensagens
 		// pendentes na fila
 		int m = 0;
 
@@ -79,7 +65,7 @@ public class Main {
 
 			// lista de mensagens
 			List<Update> updates = updatesResponse.updates();
-
+			
 			// análise de cada ação da mensagem
 			for (Update update : updates) {
 			
@@ -89,9 +75,9 @@ public class Main {
 				String mensagemRecebida = update.message().text();
 
 				System.out.println("Recebendo mensagem:" + mensagemRecebida);
-
-
-			
+				LancamentoVO dadosOperacao = new LancamentoVO();
+				ContaBancariaVO contaCorrenteDepositante = new ContaBancariaVO();
+				
 					if(OpcoesBotEnum.START.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)){
 						
 						baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
@@ -101,7 +87,7 @@ public class Main {
 					} else if(OpcoesBotEnum.EMPRESTIMO.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)){
 						EmprestimoVO emprestimoVO = new EmprestimoVO();
 						String mensagemRetorno = null ;
-						try{
+						try{ 
 							//TODO Mock teste emprestimo
 							BigDecimal saldo = new BigDecimal(10000);
 							
@@ -116,6 +102,7 @@ public class Main {
 							baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
 							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), mensagemRetorno));
 							mensagemRecebida = "";
+							
 						} catch(Exception e){
 							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), e.getMessage()));
 						}
@@ -128,10 +115,14 @@ public class Main {
 						try{
 							
 							BigDecimal valorDeposito = DepositoBancarioHelper.solicitarValorInformadoDeposito(bot, update);
+							
+							contaCorrenteDepositante.setAgenciaBancaria(DepositoBancarioHelper.solicitarContaCliente(bot, update));
+							contaCorrenteDepositante.setAgenciaBancaria(DepositoBancarioHelper.solicitarAgenciaCliente(bot, update));
 
+							
 							contaCorrenteDestino.setAgenciaBancaria(DepositoBancarioHelper.solicitarNuAgenciaDestinoDeposito(bot, update));
 
-							contaCorrenteDestino.setNuContaCorrete(DepositoBancarioHelper.solicitarNuContaDestinoDeposito(bot, update, valorDeposito));
+							contaCorrenteDestino.setNuContaCorrete(DepositoBancarioHelper.solicitarNuContaDestinoDeposito(bot, update));
 							
 							mensagemRetorno = opcoesMediator.depositar(contaCorrenteDepositante, contaCorrenteDestino, valorDeposito);
 							
@@ -139,7 +130,7 @@ public class Main {
 							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), mensagemRetorno));
 							mensagemRecebida = "";
 							
-						}catch(Exception e){
+						}catch(Exception e){ 
 							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), e.getMessage()));
 						}						
 					
@@ -153,11 +144,11 @@ public class Main {
 						
 							dependente.setCpfDependente(DependenteHelper.solicitarCPFDependente(bot, update, dependente));
 							
-//							TODO TIRAR MOCK DA CONTA						
-							LancamentoVO dadosOperacao = new LancamentoVO();
-							dadosOperacao.setContaBancaria(contaCorrenteDepositante.getNuContaCorrete().trim());
-							dadosOperacao.setAgenciaBancaria(contaCorrenteDepositante.getAgenciaBancaria().trim());
-//							TODO TIRAR MOCK DA CONTA
+							
+							dadosOperacao.setContaBancaria(DepositoBancarioHelper.solicitarContaCliente(bot, update));
+				    		dadosOperacao.setAgenciaBancaria(DepositoBancarioHelper.solicitarAgenciaCliente(bot, update));
+
+		
 							
 							mensagemRetorno = opcoesMediator.cadastrarDependente(dependente, dadosOperacao);
 							
@@ -172,13 +163,10 @@ public class Main {
 					} else if (OpcoesBotEnum.EXIBIR_MINHAS_INFORMACOES.getOpcaoDesejada().equalsIgnoreCase(mensagemRecebida)){
 						String mensagemRetorno = null;
 						
-//						TODO TIRAR MOCK DA CONTA						
-						LancamentoVO dadosOperacao = new LancamentoVO();
-						dadosOperacao.setContaBancaria(contaCorrenteDepositante.getNuContaCorrete().trim());
-						dadosOperacao.setAgenciaBancaria(contaCorrenteDepositante.getAgenciaBancaria().trim());
-//						TODO TIRAR MOCK DA CONTA
-						
 						try{
+							dadosOperacao.setContaBancaria(DepositoBancarioHelper.solicitarContaCliente(bot, update));
+				    		dadosOperacao.setAgenciaBancaria(DepositoBancarioHelper.solicitarAgenciaCliente(bot, update));					
+						
 							mensagemRetorno = opcoesMediator.exibirInformacoesConta(dadosOperacao);
 							baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
 							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), mensagemRetorno));
@@ -231,9 +219,23 @@ public class Main {
 						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), new GeneralMessages().getTarifas()));
 						mensagemRecebida = "";
 						updatesResponse = bot.execute(new GetUpdates().limit(100).offset(m+2));
+						
 				    }else if (OpcoesBotEnum.SACAR.getOpcaoDesejada().equals(mensagemRecebida)){
-				    	baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
-//				    	OpcoesMediator 
+				    				
+				    	
+				    	try{
+				    		dadosOperacao.setContaBancaria(DepositoBancarioHelper.solicitarContaCliente(bot, update));
+				    		dadosOperacao.setAgenciaBancaria(DepositoBancarioHelper.solicitarAgenciaCliente(bot, update));
+
+				    		baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name())); 
+							String mensagemRetorno = opcoesMediator.exibirInformacoesConta(dadosOperacao);
+							baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
+							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), mensagemRetorno));
+							mensagemRecebida = "";
+						} catch (ContaOuAgenciaInvalidaException | CampoInvalidoException | IOException e) {
+							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), e.getMessage()));
+						}
+ 
 //						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), new GeneralMessages().getTarifas()));
 //						mensagemRecebida = "";
 //						updatesResponse = bot.execute(new GetUpdates().limit(100).offset(m+2));
