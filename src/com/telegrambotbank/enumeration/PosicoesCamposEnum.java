@@ -35,7 +35,7 @@ public enum PosicoesCamposEnum {
 	VALOR_CALCULADO(0,10),
 	VALOR_PARCELA(0,10),
 	DATA_CONTRATACAO(0,10),
-	PRAZO(0,2), 
+	PRAZO(1,2), 
 	SALDO(0,10),
 	CPF_CLIENTE(11,11);
 	
