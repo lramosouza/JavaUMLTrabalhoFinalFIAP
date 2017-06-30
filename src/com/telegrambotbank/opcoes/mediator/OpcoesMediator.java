@@ -15,6 +15,7 @@ import com.telegrambotbank.exception.SaldoInsuficienteException;
 import com.telegrambotbank.opcoes.helper.ContaBancariaHelper;
 import com.telegrambotbank.opcoes.helper.DepositoBancarioHelper;
 import com.telegrambotbank.opcoes.helper.SaqueHelper;
+import com.telegrambotbank.services.ContaCorrenteService;
 import com.telegrambotbank.services.DependenteServicesImpl;
 import com.telegrambotbank.services.DepositoServiceImpl;
 import com.telegrambotbank.services.EmprestimoServiceImpl;
@@ -30,8 +31,8 @@ public class OpcoesMediator {
 
 	DepositoServiceImpl depositoServices = new DepositoServiceImpl();
 	DependenteServicesImpl dependenteServices = new DependenteServicesImpl();
-	
 	EmprestimoServiceImpl emprestimoService = new EmprestimoServiceImpl();
+	ContaCorrenteService contaServices;
 
 	/**
 	 * Método responsáel pelo depósito na conta
@@ -99,6 +100,16 @@ public class OpcoesMediator {
 	public String efetivarEmprestimo(EmprestimoVO emprestimoVO, ContaBancariaVO contaBancariaVO)
 			throws IOException, ArquivoInvalidoException, SaldoInsuficienteException, GravarArquivoDependenteException {
 		return emprestimoService.efetivarEmprestimo(emprestimoVO, contaBancariaVO);
+	}
+
+	public String criarArquivoConta(ContaBancariaVO contaBancaria) throws Exception{
+		
+		try{
+			return contaServices.criarContaBancaria(contaBancaria);
+		}
+		catch (Exception e) {
+			return "Erro ao criar sua conta. Verifique seus dados e tente novamente.";
+		}
 	}
 
 

@@ -210,7 +210,7 @@ public class Main {
 				    			+ "Conta: " + cntBancaria.getNuContaCorrete();
 				    	
 				    	try{				    		
-//				    		opcoesMediator.criarArquivoConta(cntBancaria); //FIXME
+				    		opcoesMediator.criarArquivoConta(cntBancaria); //FIXME
 				    	} catch (Exception e) {
 				    		System.out.println(e.getMessage());
 						}
