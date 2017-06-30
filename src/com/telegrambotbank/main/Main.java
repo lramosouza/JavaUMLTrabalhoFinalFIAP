@@ -87,8 +87,7 @@ public class Main {
 							//TODO Mock teste emprestimo
 							BigDecimal saldo = new BigDecimal(10000);
 							
-							ContaBancariaVO contaBancariaVO = new ContaBancariaVO();//obterAgenciaConta(bot, update);
-							//emprestimoVO.setCodEmprestimo(Integer.parseInt(contaBancariaVO.getAgenciaBancaria()+contaBancariaVO.getNuContaCorrete()));
+							ContaBancariaVO contaBancariaVO = obterAgenciaConta(bot, update);
 							emprestimoVO.setVlContratado(EmprestimoHelper.valorEmprestimoDisponivel(bot, update, saldo));
 							emprestimoVO.setPrazo(EmprestimoHelper.prazoEmprestimo(bot, update));
 							emprestimoVO.setVlParcela(EmprestimoHelper.calculaEmprestimo(bot, update, emprestimoVO));

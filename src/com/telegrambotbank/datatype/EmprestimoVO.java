@@ -10,8 +10,6 @@ public class EmprestimoVO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
-	private Integer codEmprestimo;
-	
 	private BigDecimal vlContratado;
 	
 	private BigDecimal vlCalculado;
@@ -23,14 +21,6 @@ public class EmprestimoVO implements Serializable{
 	private Integer prazo;
 
 	
-	public Integer getCodEmprestimo() {
-		return codEmprestimo;
-	}
-
-	public void setCodEmprestimo(Integer codEmprestimo) {
-		this.codEmprestimo = codEmprestimo;
-	}
-
 	public BigDecimal getVlContratado() {
 		return vlContratado;
 	}

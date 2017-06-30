@@ -23,7 +23,7 @@ public class EmprestimoServiceImpl implements EmprestimoService {
 		Path destino = ArquivoContaCorrenteUtil.obterCaminhoArquivo(contaBancariaVO.getNuContaCorrete(), contaBancariaVO.getAgenciaBancaria());
 				
 		StringBuffer layoutEmprestimo = new StringBuffer();
-		//layoutEmprestimo.append(emprestimoVO.getCodEmprestimo().toString()).append(preencheBlanck(PosicoesCamposEnum.CODIGO_EMPRESTIMO.getPosicaoMax(), emprestimoVO.getCodEmprestimo().toString().length()));
+		
 		layoutEmprestimo.append(emprestimoVO.getVlContratado().toString()).append(preencheBlanck(PosicoesCamposEnum.VALOR_CONTRATADO.getPosicaoMax(), emprestimoVO.getVlContratado().toString().length()));
 		layoutEmprestimo.append(emprestimoVO.getVlCalculado().toString()).append(preencheBlanck(PosicoesCamposEnum.VALOR_CALCULADO.getPosicaoMax(), emprestimoVO.getVlCalculado().toString().length()));
 		layoutEmprestimo.append(emprestimoVO.getVlParcela().toString()).append(preencheBlanck(PosicoesCamposEnum.VALOR_PARCELA.getPosicaoMax(), emprestimoVO.getVlParcela().toString().length()));
