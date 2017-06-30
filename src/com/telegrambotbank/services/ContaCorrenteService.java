@@ -2,6 +2,7 @@ package com.telegrambotbank.services;
 
 import java.io.IOException;
 
+import com.telegrambotbank.datatype.ContaBancariaVO;
 import com.telegrambotbank.datatype.LancamentoVO;
 import com.telegrambotbank.exception.ArquivoInvalidoException;
 import com.telegrambotbank.exception.GravarArquivoDependenteException;
@@ -30,5 +31,7 @@ public interface ContaCorrenteService {
 	 * @throws ArquivoInvalidoException 
 	 */
 	public String debitarContaBancaria(LancamentoVO dadosOperacao) throws SaldoInsuficienteException, IOException, ArquivoInvalidoException, GravarArquivoDependenteException;
-
+	
+	
+	public String criarContaBancaria(ContaBancariaVO contaBancaria) throws Exception;
 }

@@ -44,8 +44,9 @@ public class Utils {
 	
 	public static LocalDate converteData(String data) {
 
-		LocalDate dataConvertida = LocalDate.parse(data, DateTimeFormatter.ofPattern("dd-MM-YYYY"));
-
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDate dataConvertida = LocalDate.parse(data,formatter);
+		
 		return dataConvertida;
 	}
 
