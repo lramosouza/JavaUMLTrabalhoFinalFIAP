@@ -79,9 +79,9 @@ public class ContaCorrenteServiceImpl implements ContaCorrenteService{
 		arquivoContaCorrenteReader.visitFile(destino, null);
 		
 		//Obtem saldo do arquivo a partir do arquivo da conta corrente
-		BigDecimal saldo = new BigDecimal(arquivoContaCorrenteReader.getDadosArquivo().substring(13, 23).trim());
+		BigDecimal saldo = new BigDecimal(arquivoContaCorrenteReader.getDadosArquivo().substring(12, 22).trim());
 		
-		if (saldo.compareTo(BigDecimal.ZERO) == 0 || saldo.compareTo(dadosOperacao.getValorLancamento()) < 0){
+		if (saldo.compareTo(BigDecimal.ZERO) == 0){
 			throw new SaldoInsuficienteException();
 		}
 		// Calcula novo saldo

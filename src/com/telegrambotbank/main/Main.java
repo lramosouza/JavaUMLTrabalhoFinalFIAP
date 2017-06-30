@@ -23,11 +23,15 @@ import com.telegrambotbank.datatype.LancamentoVO;
 import com.telegrambotbank.enumeration.OpcoesBotEnum;
 import com.telegrambotbank.exception.CampoInvalidoException;
 import com.telegrambotbank.exception.ContaOuAgenciaInvalidaException;
+import com.telegrambotbank.exception.GravarArquivoDependenteException;
+import com.telegrambotbank.exception.SaldoInsuficienteException;
+import com.telegrambotbank.exception.ValorInvalidoException;
 import com.telegrambotbank.messages.GeneralMessages;
 import com.telegrambotbank.opcoes.helper.DependenteHelper;
 import com.telegrambotbank.opcoes.helper.DepositoBancarioHelper;
 import com.telegrambotbank.opcoes.helper.EmprestimoHelper;
 import com.telegrambotbank.opcoes.helper.ObterAgenciaContaHelper;
+import com.telegrambotbank.opcoes.helper.OprecoesHelper;
 import com.telegrambotbank.opcoes.mediator.OpcoesMediator;
 import com.telegrambotbank.opcoes.util.ClienteUtil;
 import com.telegrambotbank.opcoes.util.Utils;
@@ -39,7 +43,7 @@ public class Main {
 		OpcoesMediator opcoesMediator = new OpcoesMediator();
 
 		// Criação do objeto bot com as informações de acesso
-		TelegramBot bot = TelegramBotAdapter.build("332862407:AAE6LMtF2A9q5w9QBm7rqw9Cfsv46_ypVoc");
+		TelegramBot bot = TelegramBotAdapter.build("394153562:AAHSfc6mdvRYAiVM3Cpx99ScodsTcAzqaiY");
 
 		// objeto responsável por receber as mensagens
 		GetUpdatesResponse updatesResponse;
@@ -112,7 +116,8 @@ public class Main {
 							
 							BigDecimal valorDeposito = DepositoBancarioHelper.solicitarValorInformadoDeposito(bot, update);
 							
-							contaCorrenteDepositante.setAgenciaBancaria(DepositoBancarioHelper.solicitarContaCliente(bot, update));
+							contaCorrenteDepositante.setNuContaCorrete(DepositoBancarioHelper.solicitarContaCliente(bot, update));
+							
 							contaCorrenteDepositante.setAgenciaBancaria(DepositoBancarioHelper.solicitarAgenciaCliente(bot, update));
 
 							
@@ -141,8 +146,8 @@ public class Main {
 							dependente.setCpfDependente(DependenteHelper.solicitarCPFDependente(bot, update, dependente));
 							
 							
-							dadosOperacao.setContaBancaria(DepositoBancarioHelper.solicitarContaCliente(bot, update));
-				    		dadosOperacao.setAgenciaBancaria(DepositoBancarioHelper.solicitarAgenciaCliente(bot, update));
+							dadosOperacao.setContaBancaria(OprecoesHelper.solicitarContaCliente(bot, update));
+				    		dadosOperacao.setAgenciaBancaria(OprecoesHelper.solicitarAgenciaCliente(bot, update));
 
 		
 							
@@ -160,8 +165,8 @@ public class Main {
 						String mensagemRetorno = null;
 						
 						try{
-							dadosOperacao.setContaBancaria(DepositoBancarioHelper.solicitarContaCliente(bot, update));
-				    		dadosOperacao.setAgenciaBancaria(DepositoBancarioHelper.solicitarAgenciaCliente(bot, update));					
+							dadosOperacao.setContaBancaria(OprecoesHelper.solicitarContaCliente(bot, update));
+				    		dadosOperacao.setAgenciaBancaria(OprecoesHelper.solicitarAgenciaCliente(bot, update));					
 						
 							mensagemRetorno = opcoesMediator.exibirInformacoesConta(dadosOperacao);
 							baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
@@ -220,15 +225,16 @@ public class Main {
 				    				
 				    	
 				    	try{
-				    		dadosOperacao.setContaBancaria(DepositoBancarioHelper.solicitarContaCliente(bot, update));
-				    		dadosOperacao.setAgenciaBancaria(DepositoBancarioHelper.solicitarAgenciaCliente(bot, update));
+				    		dadosOperacao.setContaBancaria(OprecoesHelper.solicitarContaCliente(bot, update));
+				    		dadosOperacao.setAgenciaBancaria(OprecoesHelper.solicitarAgenciaCliente(bot, update));
+				    		dadosOperacao.setValorLancamento(OprecoesHelper.solicitarValor(bot, update));
 
 				    		baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name())); 
-							String mensagemRetorno = opcoesMediator.exibirInformacoesConta(dadosOperacao);
+							String mensagemRetorno = opcoesMediator.sacarDinheiro(dadosOperacao);
 							baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
 							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), mensagemRetorno));
 							mensagemRecebida = "";
-						} catch (ContaOuAgenciaInvalidaException | CampoInvalidoException | IOException e) {
+						} catch (ContaOuAgenciaInvalidaException | CampoInvalidoException | IOException | ValorInvalidoException | SaldoInsuficienteException | GravarArquivoDependenteException e) {
 							sendResponse = bot.execute(new SendMessage(update.message().chat().id(), e.getMessage()));
 						}
  

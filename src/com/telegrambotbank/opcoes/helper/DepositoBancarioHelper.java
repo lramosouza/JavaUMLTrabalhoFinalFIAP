@@ -100,7 +100,7 @@ public class DepositoBancarioHelper {
 		m = update.updateId() + 1;
 
 		while (fimInformarConta == false) {
-			updatesResponse = bot.execute(new GetUpdates().limit(100).offset(m + 2));
+			updatesResponse = bot.execute(new GetUpdates().limit(100).offset(m + 4));
 
 			// lista de mensagens
 			List<Update> updates4 = updatesResponse.updates();
@@ -136,7 +136,7 @@ public class DepositoBancarioHelper {
 		String resp = StringUtilsEnum.BLANK.getBlank();
 
 		while (fimInformarAgencia == false) {
-			updatesResponse = bot.execute(new GetUpdates().limit(100).offset(m + 1));
+			updatesResponse = bot.execute(new GetUpdates().limit(100).offset(m + 3));
 
 			// lista de mensagens
 			List<Update> updates3 = updatesResponse.updates();
@@ -227,7 +227,8 @@ public class DepositoBancarioHelper {
 			throw new ContaOuAgenciaInvalidaException();
 		}
 	}
-
+	
+	
 	public static String solicitarContaCliente(TelegramBot bot, Update update) throws CampoInvalidoException {
 		GetUpdatesResponse updatesResponse;
 
@@ -243,7 +244,7 @@ public class DepositoBancarioHelper {
 		m = update.updateId() + 1;
 
 		while (fimInformarConta == false) {
-			updatesResponse = bot.execute(new GetUpdates().limit(100).offset(m + 2));
+			updatesResponse = bot.execute(new GetUpdates().limit(100).offset(m + 1));
 
 			// lista de mensagens
 			List<Update> updates4 = updatesResponse.updates();
@@ -278,7 +279,7 @@ public class DepositoBancarioHelper {
 		String resp = StringUtilsEnum.BLANK.getBlank();
 
 		while (fimInformarAgencia == false) {
-			updatesResponse = bot.execute(new GetUpdates().limit(100).offset(m + 1));
+			updatesResponse = bot.execute(new GetUpdates().limit(100).offset(m + 2));
 
 			// lista de mensagens
 			List<Update> updates3 = updatesResponse.updates();
