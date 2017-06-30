@@ -3,7 +3,6 @@ package com.telegrambotbank.datatype;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import com.telegrambotbank.annotation.PosicaoConta;
 import com.telegrambotbank.enumeration.TipoContaCorrenteEnum;
 
 /**
@@ -17,15 +16,12 @@ public class ContaBancariaVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private ClienteVO cliente;
 
-	@PosicaoConta(posicaoInicial = 0, posicaoFinal = 4)
 	private String agenciaBancaria;
 
-	@PosicaoConta(posicaoInicial = 6, posicaoFinal = 12)
 	private String nuContaCorrete;
 
 	private TipoContaCorrenteEnum tipo;
 
-	@PosicaoConta(posicaoInicial = 14, posicaoFinal = 24)
 	private BigDecimal saldo;
 
 	public ClienteVO getCliente() {

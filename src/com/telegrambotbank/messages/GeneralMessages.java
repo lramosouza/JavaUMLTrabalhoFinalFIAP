@@ -2,8 +2,6 @@ package com.telegrambotbank.messages;
 
 import java.lang.reflect.Field;
 
-import com.telegrambotbank.annotation.PosicaoCliente;
-import com.telegrambotbank.datatype.ClienteVO;
 
 /**
  * Classe responsavel por receber o cliente e listar todos os comandos
@@ -50,50 +48,5 @@ public class GeneralMessages {
 		return tarifas;
 	}
 
-	public Object getObjectByLine(String line, Object obj) throws IllegalArgumentException, IllegalAccessException{
-		try {
-		for (Field f : obj.getClass().getDeclaredFields()) {
-			   PosicaoCliente posicao = f.getDeclaredAnnotation(PosicaoCliente.class);
-			   if (posicao != null){
-				   f.setAccessible(true);
-				   f.set(obj, line.substring(posicao.posicaoInicial(),posicao.posicaoFinal()).trim());
-			   }
-			}
-		} catch (Exception e) {
-	        throw new IllegalStateException(e);
-	    }
-		return obj;
-	}
-	
-	public String getLineByObject(Object obj)throws IllegalArgumentException, IllegalAccessException{
-		String retorno = "";
-		int aux = 0;
-		try {
-			for (Field f : obj.getClass().getDeclaredFields()) {
-				aux = 0;
-				   PosicaoCliente posicao = f.getDeclaredAnnotation(PosicaoCliente.class);
-				   if (posicao != null){
-					  f.setAccessible(true);
-					  String blankSpaces = "";
-					  String fieldValue =  f.get(obj).toString();
-					  
-					  aux = (posicao.posicaoFinal() - posicao.posicaoInicial()) - fieldValue.length();
-					  
-					  for (int i = 0; i < aux; i++) {
-						  blankSpaces = blankSpaces + " ";
-					}
-					  fieldValue = fieldValue + blankSpaces;
-					  retorno = retorno + fieldValue;
-					  
-				   }
-				}
-			} catch (Exception e) {
-		        throw new IllegalStateException(e);
-		    }
-		
-		
-		return retorno;
-		
-	}
 	
 }
