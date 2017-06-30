@@ -14,6 +14,7 @@ import com.pengrad.telegrambot.response.GetUpdatesResponse;
 import com.telegrambotbank.datatype.EmprestimoVO;
 import com.telegrambotbank.enumeration.PosicoesCamposEnum;
 import com.telegrambotbank.exception.CampoInvalidoException;
+import com.telegrambotbank.exception.EmprestimoException;
 import com.telegrambotbank.exception.PrazoException;
 import com.telegrambotbank.opcoes.util.Utils;
 
@@ -90,7 +91,7 @@ public class EmprestimoHelper {
 	
 	public static BigDecimal calculaEmprestimo(TelegramBot bot, Update update, EmprestimoVO vo) throws CampoInvalidoException{
 		GetUpdatesResponse updatesResponse;
-		boolean fimInformarNomeDependente = false;
+		boolean fimEmprestimo = false;
 		int m;
 		
 		BigDecimal taxa = new BigDecimal("0.05");
@@ -102,12 +103,12 @@ public class EmprestimoHelper {
 		vo.setVlCalculado(valorCalculado);
 		
 		bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
-		bot.execute(new SendMessage(update.message().chat().id(), vo.getPrazo()+"X de R$ " +vo.getVlParcela()));
+		bot.execute(new SendMessage(update.message().chat().id(), vo.getPrazo()+"X de R$ " +vo.getVlParcela()+" Deseja Contratar? Sim ou Não"));
 		
 		m = update.updateId() + 3;
 		String resp = "";
 		
-		while (fimInformarNomeDependente == false) {
+		while (fimEmprestimo == false) {
 			updatesResponse = bot.execute(new GetUpdates().limit(100).offset(m));
 
 			// lista de mensagens
@@ -117,7 +118,13 @@ public class EmprestimoHelper {
 			for (Update u : updates) {
 				resp = u.message().text().trim();
 				if (resp != null) {
-					fimInformarNomeDependente = true;
+					String msgRetorno = resp;
+					if("sim".equalsIgnoreCase(msgRetorno)){
+						fimEmprestimo = true;
+					}else{
+						new EmprestimoException("Se caso mudar de idéia estamos a disposição.");
+					}
+					
 				}
 			}
 		}
