@@ -2,6 +2,7 @@ package com.telegrambotbank.main;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import com.pengrad.telegrambot.TelegramBot;
@@ -86,10 +87,12 @@ public class Main {
 							//TODO Mock teste emprestimo
 							BigDecimal saldo = new BigDecimal(10000);
 							
-							ContaBancariaVO contaBancariaVO = obterAgenciaConta(bot, update);
+							ContaBancariaVO contaBancariaVO = new ContaBancariaVO();//obterAgenciaConta(bot, update);
+							//emprestimoVO.setCodEmprestimo(Integer.parseInt(contaBancariaVO.getAgenciaBancaria()+contaBancariaVO.getNuContaCorrete()));
 							emprestimoVO.setVlContratado(EmprestimoHelper.valorEmprestimoDisponivel(bot, update, saldo));
 							emprestimoVO.setPrazo(EmprestimoHelper.prazoEmprestimo(bot, update));
-							emprestimoVO.setVlCalculado(EmprestimoHelper.calculaEmprestimo(bot, update, emprestimoVO));
+							emprestimoVO.setVlParcela(EmprestimoHelper.calculaEmprestimo(bot, update, emprestimoVO));
+							emprestimoVO.setDtContracao(new Date());
 							
 							mensagemRetorno = opcoesMediator.efetivarEmprestimo(emprestimoVO, contaBancariaVO);
 							baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
@@ -191,7 +194,7 @@ public class Main {
 				    			+ "Conta: " + cntBancaria.getNuContaCorrete();
 				    	
 				    	try{				    		
-//				    		opcoesMediator.criarArquivoConta(cntBancaria); //FIXME
+				    		opcoesMediator.criarArquivoConta(cntBancaria); //FIXME
 				    	} catch (Exception e) {
 				    		System.out.println(e.getMessage());
 						}
@@ -234,28 +237,6 @@ public class Main {
 //						updatesResponse = bot.execute(new GetUpdates().limit(100).offset(m+2));
 				    	
 				    }
-
-//					baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
-//					sendResponse = bot.execute(new SendMessage(update.message().chat().id(), e.getMessage()));
-//				mensagemRecebida = "";
-//				
-				
-				
-				// envio de "Escrevendo" antes de enviar a resposta
-//				baseResponse = bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
-
-				// verifica��o de a��o de chat foi enviada com sucesso
-//				System.out.println("Resposta de Chat Action Enviada?" + baseResponse.isOk());
-
-				// envio da mensagem de resposta
-				//sendResponse = bot.execute(new
-				 //SendMessage(update.message().chat().id(), "N�o entend..."));
-
-				// verifica��o de mensagem enviada com sucesso
-//				System.out.println("Mensagem Enviada?" +
-//						baseResponse.isOk());
-				
-
 			}
 		}
 	}

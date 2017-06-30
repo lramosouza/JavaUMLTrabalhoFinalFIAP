@@ -14,6 +14,7 @@ import com.pengrad.telegrambot.response.GetUpdatesResponse;
 import com.telegrambotbank.datatype.EmprestimoVO;
 import com.telegrambotbank.enumeration.PosicoesCamposEnum;
 import com.telegrambotbank.exception.CampoInvalidoException;
+import com.telegrambotbank.exception.PrazoException;
 import com.telegrambotbank.opcoes.util.Utils;
 
 public class EmprestimoHelper {
@@ -29,7 +30,7 @@ public class EmprestimoHelper {
 		
 		bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
 		bot.execute(new SendMessage(update.message().chat().id(), "Você tem um crédito aprovado no valor de R$ "+valorAprovado
-				+"! Deseja Fazer um Emprestimo no valor de quanto?"));
+				+" podendo parcelar em até 36x! Deseja Fazer um Emprestimo no valor de quanto?"));
 		
 		m = update.updateId() + 1;
 		String resp = "";
@@ -54,7 +55,7 @@ public class EmprestimoHelper {
 		return valorContratado;
 	}
 	
-	public static Integer prazoEmprestimo(TelegramBot bot, Update update) throws CampoInvalidoException{
+	public static Integer prazoEmprestimo(TelegramBot bot, Update update) throws CampoInvalidoException, PrazoException{
 		GetUpdatesResponse updatesResponse;
 		boolean fimInformarNomeDependente = false;
 		int m;
@@ -97,10 +98,11 @@ public class EmprestimoHelper {
 		
 		BigDecimal juros = vo.getVlContratado().multiply(taxa).multiply(new BigDecimal(vo.getPrazo().toString()));
 		BigDecimal valorCalculado = vo.getVlContratado().add(juros.add(iof));		
-		vo.setVlCalculado(valorCalculado.divide(new BigDecimal(vo.getPrazo().toString())).divide(new BigDecimal("1.3"),3,RoundingMode.UP));
+		vo.setVlParcela(valorCalculado.divide(new BigDecimal(vo.getPrazo().toString())).divide(new BigDecimal("1.3"),3,RoundingMode.UP));
+		vo.setVlCalculado(valorCalculado);
 		
 		bot.execute(new SendChatAction(update.message().chat().id(), ChatAction.typing.name()));
-		bot.execute(new SendMessage(update.message().chat().id(), vo.getPrazo()+"X de R$ " +vo.getVlCalculado()));
+		bot.execute(new SendMessage(update.message().chat().id(), vo.getPrazo()+"X de R$ " +vo.getVlParcela()));
 		
 		m = update.updateId() + 3;
 		String resp = "";
