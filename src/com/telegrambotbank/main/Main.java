@@ -39,11 +39,7 @@ public class Main {
 		OpcoesMediator opcoesMediator = new OpcoesMediator();
 
 		// Criação do objeto bot com as informações de acesso
-<<<<<<< HEAD
 		TelegramBot bot = TelegramBotAdapter.build("394153562:AAHSfc6mdvRYAiVM3Cpx99ScodsTcAzqaiY");
-=======
-		TelegramBot bot = TelegramBotAdapter.build("332862407:AAE6LMtF2A9q5w9QBm7rqw9Cfsv46_ypVoc");
->>>>>>> branch 'master' of https://github.com/lramosouza/JavaUMLTrabalhoFinalFIAP.git
 
 		// objeto responsável por receber as mensagens
 		GetUpdatesResponse updatesResponse;
